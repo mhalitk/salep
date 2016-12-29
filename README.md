@@ -15,7 +15,7 @@ npm install --save-dev salep
 # Usage
 
 ```javascript
-const expect = require('chai');
+const expect = require('chai').expect;
 const salep = require('salep');
 
 salep.test("FunctionToTest", function() {
