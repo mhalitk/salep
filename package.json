@@ -1,0 +1,21 @@
+{
+  "name": "salep",
+  "version": "0.0.1",
+  "description": "A very simple Javascript unit test tool",
+  "main": "index.js",
+  "scripts": { },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mhalitk/salep.git"
+  },
+  "keywords": [
+    "test",
+    "unittest"
+  ],
+  "author": "M.Halit Karakis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mhalitk/salep/issues"
+  },
+  "homepage": "https://github.com/mhalitk/salep#readme"
+}
