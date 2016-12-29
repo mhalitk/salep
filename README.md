@@ -14,7 +14,7 @@ npm install --save-dev salep
 
 # Usage
 
-```
+```javascript
 const expect = require('chai');
 const salep = require('salep');
 
