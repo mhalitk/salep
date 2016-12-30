@@ -1,6 +1,6 @@
 {
   "name": "salep",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A very simple Javascript unit test tool",
   "main": "index.js",
   "scripts": { },
@@ -10,7 +10,9 @@
   },
   "keywords": [
     "test",
-    "unittest"
+    "unittest",
+    "tdd",
+    "salep"
   ],
   "author": "M.Halit Karakis",
   "license": "MIT",
