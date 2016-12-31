@@ -102,8 +102,10 @@ Salep.case = function(name, func) {
 
   if (this instanceof Test) {
     this.cases.push(_case);
+    _case.parent = this;
   } else {
     Salep.cases.push(_case);
+    _case.parent = null;
   }
 
   caseStart(_case);
@@ -114,6 +116,7 @@ Salep.case = function(name, func) {
       success(_case);
     } catch (e) {
       _case.success = false;
+      _case.reason = e;
       fail(_case);
     }
   } else {
@@ -155,6 +158,8 @@ function Case(params) {
   this.success = false;
   this.skipped = false;
   this.level = level;
+  this.reason = "";
+  this.parent = null;
 
   if (params) for (param in params) {
     if (this.hasOwnProperty(param)) {
