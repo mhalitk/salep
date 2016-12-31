@@ -232,7 +232,7 @@ var failCount = 0;
 var skipCount = 0;
 var totalCount = 0;
 
-salep.testStart = function(test) {
+function testStart(test) {
   /**
    * This event fires before starting a test function.
    *
