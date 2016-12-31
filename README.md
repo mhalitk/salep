@@ -44,3 +44,17 @@ salep.test("FunctionToTest", function() {
 var result = salep.stop();
 console.log(JSON.stringify(result, null, 2));
 ```
+
+# Events
+
+salep has events to help you take action while test continues working.
+
+```javascript
+salep.on('fail', function(testCase) {
+  console.log('Case [' + testCase.name + '] finished with fail: ' + testCase.reason);
+});
+
+salep.on('success', function(testCase) {
+  console.log('Case [' + testCase.name + '] finished with success');
+});
+```
