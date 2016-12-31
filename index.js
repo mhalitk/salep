@@ -97,6 +97,9 @@ salep.cases = [];
  * @param {String}    name  Name of the test
  * @param {Function}  func  Test function
  * 
+ * @fires module:salep#testStart
+ * @fires module:salep#skip
+ * 
  * @example
  * salep.test('NewTest', function() {
  *   this.case('NewCase of NewTest', function() {
@@ -139,6 +142,11 @@ salep.test = function(name, func) {
  * 
  * @param {String}    name  Name of the case
  * @param {Function}  func  Case function
+ * 
+ * @fires module:salep#caseStart
+ * @fires module:salep#success
+ * @fires module:salep#fail
+ * @fires module:salep#skip
  * 
  * @example
  * salep.case('NewFailCaseInsalepScope', function() {
@@ -224,26 +232,56 @@ var failCount = 0;
 var skipCount = 0;
 var totalCount = 0;
 
-function testStart(data) {
-  emit("testStart", data);
+salep.testStart = function(test) {
+  /**
+   * This event fires before starting a test function.
+   *
+   * @event module:salep#testStart
+   * @type {Test}
+   */
+  emit("testStart", test);
 }
 
-function caseStart(data) {
+function caseStart(testCase) {
   totalCount++;
-  emit("caseStart", data);
+  /**
+   * This event fires before starting a test case function.
+   * 
+   * @event module:salep#caseStart
+   * @type {Case}
+   */
+  emit("caseStart", testCase);
 }
 
-function fail(data) {
+function fail(testCase) {
   failCount++;
-  emit("fail", data);
+  /**
+   * This event fires when a test case fails.
+   * 
+   * @event module:salep#fail
+   * @type {Case}
+   */
+  emit("fail", testCase);
 }
 
-function success(data) {
+function success(testCase) {
   successCount++;
-  emit("success", data);
+  /**
+   * This event fires when a test case succeeds.
+   * 
+   * @event module:salep#success
+   * @type {Case}
+   */
+  emit("success", testCase);
 }
 
-function skip(data) {
+function skip(testOrCase) {
   skipCount++;
-  emit("skip", data);
+  /**
+   * This event fires when a test or case has skipped.
+   * 
+   * @event module:salep#skip
+   * @type {Test|Case}
+   */
+  emit("skip", testOrCase);
 }

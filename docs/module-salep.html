@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-salep.html">salep</a><ul class='methods'><li data-type='method'><a href="module-salep.html#~case">case</a></li><li data-type='method'><a href="module-salep.html#~on">on</a></li><li data-type='method'><a href="module-salep.html#~run">run</a></li><li data-type='method'><a href="module-salep.html#~stop">stop</a></li><li data-type='method'><a href="module-salep.html#~test">test</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-salep.html">salep</a><ul class='methods'><li data-type='method'><a href="module-salep.html#~case">case</a></li><li data-type='method'><a href="module-salep.html#~on">on</a></li><li data-type='method'><a href="module-salep.html#~run">run</a></li><li data-type='method'><a href="module-salep.html#~stop">stop</a></li><li data-type='method'><a href="module-salep.html#~test">test</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="module-salep.html#event:caseStart">caseStart</a></li><li><a href="module-salep.html#event:fail">fail</a></li><li><a href="module-salep.html#event:skip">skip</a></li><li><a href="module-salep.html#event:success">success</a></li><li><a href="module-salep.html#event:testStart">testStart</a></li></ul>
 </nav>
 
 <div id="main">
@@ -276,7 +276,7 @@ as failed otherwise case marked as succeded.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line131">line 131</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line134">line 134</a>
     </li></ul></dd>
     
 
@@ -290,6 +290,17 @@ as failed otherwise case marked as succeded.</p>
 
 
 
+
+<h5>Fires:</h5>
+<ul>
+    <li><a href="module-salep.html#event:caseStart">module:salep#event:caseStart</a></li>
+
+    <li><a href="module-salep.html#event:success">module:salep#event:success</a></li>
+
+    <li><a href="module-salep.html#event:fail">module:salep#event:fail</a></li>
+
+    <li><a href="module-salep.html#event:skip">module:salep#event:skip</a></li>
+</ul>
 
 
 
@@ -806,6 +817,13 @@ cases. All the cases written inside test function is belong to named test.</p>
 
 
 
+<h5>Fires:</h5>
+<ul>
+    <li><a href="module-salep.html#event:testStart">module:salep#event:testStart</a></li>
+
+    <li><a href="module-salep.html#event:skip">module:salep#event:skip</a></li>
+</ul>
+
 
 
 
@@ -832,6 +850,473 @@ cases. All the cases written inside test function is belong to named test.</p>
     
 
     
+        <h3 class="subsection-title">Events</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="event:caseStart">caseStart</h4>
+
+    
+
+
+
+<div class="description">
+    <p>This event fires before starting a test case function.</p>
+</div>
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Case</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line247">line 247</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="event:fail">fail</h4>
+
+    
+
+
+
+<div class="description">
+    <p>This event fires when a test case fails.</p>
+</div>
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Case</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line258">line 258</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="event:skip">skip</h4>
+
+    
+
+
+
+<div class="description">
+    <p>This event fires when a test or case has skipped.</p>
+</div>
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Test</span>
+|
+
+<span class="param-type">Case</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line280">line 280</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="event:success">success</h4>
+
+    
+
+
+
+<div class="description">
+    <p>This event fires when a test case succeeds.</p>
+</div>
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Case</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line269">line 269</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="event:testStart">testStart</h4>
+
+    
+
+
+
+<div class="description">
+    <p>This event fires before starting a test function.</p>
+</div>
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Test</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line236">line 236</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
 </article>
 
 </section>
@@ -844,7 +1329,7 @@ cases. All the cases written inside test function is belong to named test.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Jan 01 2017 01:24:20 GMT+0300 (+03) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Jan 01 2017 01:53:28 GMT+0300 (+03) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
