@@ -1,7 +1,9 @@
 # salep
-A very simple Javascript unit test tool
+
+salep is a very simple Javascript testing framework you can use on almost all JS platforms. It basically puts itself into global scope and runs while your code is running. It gives all collected test informations as JS object when you stopped it. That's it.
 
 # Install
+
 Install salep globally:
 ```
 npm install --global salep
@@ -47,7 +49,7 @@ console.log(JSON.stringify(result, null, 2));
 
 # Events
 
-salep has events to help you take action while test continues working.
+salep has some events helping you take actions while test continues running.
 
 ```javascript
 salep.on('fail', function(testCase) {

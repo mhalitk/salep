@@ -1,7 +1,7 @@
 {
   "name": "salep",
   "version": "0.1.0",
-  "description": "A very simple Javascript unit test tool",
+  "description": "a very simple Javascript testing framework",
   "main": "index.js",
   "scripts": { },
   "repository": {
