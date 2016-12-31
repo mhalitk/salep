@@ -1,4 +1,8 @@
 /**
+ * @module salep
+ * @global
+ *
+ * @desc
  * salep is a singleton object that manages all tests and cases.
  * This object exposed to global scope as 'salep'.
  */
@@ -10,8 +14,8 @@ global.salep = salep;
 var callbacks = {};
 /**
  * @method on
- * @static
  * 
+ * @desc
  * This function enables adding callbacks to events. For one specific
  * event there may be many callbacks.
  * 
@@ -43,11 +47,10 @@ salep.isRunning = false;
 
 /**
  * @method run
- * @static
  *
+ * @desc
  * Enables salep testing. All the tests and cases before salep.run method
  * executed will be counted and recorded as skipped.
- * 
  */
 salep.run = function() {
   salep.isRunning = true;
@@ -55,8 +58,8 @@ salep.run = function() {
 
 /**
  * @method stop
- * @static
  *
+ * @desc
  * Disables salep testing and returns all the collected information starting
  * from last stop function invoked or the beginning of program (if stop function
  * not invoked ever). After stop function invoked all following tests and cases 
@@ -85,8 +88,8 @@ salep.cases = [];
 
 /**
  * @method test
- * @static
  * 
+ * @desc
  * This function creates a new test inside salep scope with given name
  * and test function. Tests doesn't have success or fail status, they have
  * cases. All the cases written inside test function is belong to named test.
@@ -127,8 +130,8 @@ salep.test = function(name, func) {
 
 /**
  * @method case
- * @static
  * 
+ * @desc
  * This function creates a new case inside salep scope with given name
  * and case function. Cases created in salep scope doesn't have parent.
  * When case function invoked if exception is thrown case would marked
