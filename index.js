@@ -142,10 +142,8 @@ const salep = {
 
     if (this instanceof Test) {
       this.cases.push(_case);
-      _case.parent = this;
     } else {
       salep.cases.push(_case);
-      _case.parent = null;
     }
 
     caseStart(_case);
