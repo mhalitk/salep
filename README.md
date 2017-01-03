@@ -16,47 +16,58 @@ npm install --save-dev salep
 
 # Usage
 
+Here is a sample test code using salep
+
 ```javascript
 require('salep');
-const expect = require('chai').expect;
 
-// This test will be ignored since salep.run() not called yet
-salep.test("FunctionToSkip", function() {
-  this.case("SkippedCase", function() {
-    throw "This case and test will be ignored";
-  });
+function add(a, b) {
+  return a + b;
+}
+
+// This function has bug
+function fibonacci(n) {
+  if (n <= 2) {
+    return 0;
+  } else {
+    return fibonacci(n - 1) + fibonacci(n - 2);
+  }
+}
+
+// Set event handlers
+salep.on("fail", function(testCase) {
+  console.log("Case [" + testCase.name + "] finished with fail: " + testCase.reason);
+});
+
+salep.on("success", function(testCase) {
+  console.log("Case [" + testCase.name + "] finished with success");
 });
 
 // Start salep
 salep.run();
 
-salep.test("FunctionToTest", function() {
+// Write tests and cases
+salep.test("Add Test", function() {
   // This will be recorded as success
-  this.case("SuccessCase", function() {
-    expect("Hello World!").to.be.a("string");
+  this.case("add(3,5) should return 8", function() {
+    var result = add(3,5);
+    if (result !== 8) {
+      throw "add function failed, expected value: [8] actual value: " + result;
+    }
   });
   
   // This will be recorded as fail
-  this.case("FailCase", function() {
-    expect(false).to.be.a("string");
+  this.case("fibonacci(7) should be equal to 13", function() {
+    var result = fibonacci(7);
+    if (result !== 13) {
+      throw "fibonacci(7) returned '" + result + "', expected value was 13";
+    }
   });
 });
 
 // Get results
 var result = salep.stop();
-console.log(JSON.stringify(result, null, 2));
-```
-
-# Events
-
-salep has some events helping you take actions while test continues running.
-
-```javascript
-salep.on('fail', function(testCase) {
-  console.log('Case [' + testCase.name + '] finished with fail: ' + testCase.reason);
-});
-
-salep.on('success', function(testCase) {
-  console.log('Case [' + testCase.name + '] finished with success');
-});
-```
+console.log(result.fail + " Failed");
+console.log(result.success + " Succeeded");
+console.log(result.skip + " Skipped");
+console.log(result.total + " Total");
