@@ -47,12 +47,12 @@ salep.on("success", function(testCase) {
 salep.run();
 
 // Write tests and cases
-salep.test("Add Test", function() {
+salep.test("Add/Fibonacci Functions Test", function() {
   // This will be recorded as success
   this.case("add(3,5) should return 8", function() {
     var result = add(3,5);
     if (result !== 8) {
-      throw "add function failed, expected value: [8] actual value: " + result;
+      throw "add(3,5) returned '" + result + "', expected value was '8'";
     }
   });
   
@@ -60,7 +60,7 @@ salep.test("Add Test", function() {
   this.case("fibonacci(7) should be equal to 13", function() {
     var result = fibonacci(7);
     if (result !== 13) {
-      throw "fibonacci(7) returned '" + result + "', expected value was 13";
+      throw "fibonacci(7) returned '" + result + "', expected value was '13'";
     }
   });
 });
