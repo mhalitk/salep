@@ -1,4 +1,7 @@
 .vscode
 docs
 node_modules
+test
 jsdoc.conf
+circle.yml
+.travis.yml
