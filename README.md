@@ -1,24 +1,28 @@
 # salep
 
-[![Build Status](https://travis-ci.org/mhalitk/salep.svg?branch=master)](https://travis-ci.org/mhalitk/salep) [![codecov](https://codecov.io/gh/mhalitk/salep/branch/master/graph/badge.svg)](https://codecov.io/gh/mhalitk/salep)
+[![Build Status](https://travis-ci.org/mhalitk/salep.svg?branch=master)](https://travis-ci.org/mhalitk/salep) [![codecov](https://codecov.io/gh/mhalitk/salep/branch/master/graph/badge.svg)](https://codecov.io/gh/mhalitk/salep) [![dependencies](https://img.shields.io/badge/dependencies-none-brightgreen.svg)](https://github.com/mhalitk/salep) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mhalitk/salep/blob/master/LICENSE)
 
-salep is platform independent Javascript testing framework. It basically puts itself into global scope and runs while your code is running. It gives all collected test informations as JS object when you stopped it. That's it.
+salep is platform independent Javascript testing framework. It basically puts itself into global scope and runs while your code is running. It gives all collected test informations as JS object whenever you requested.
 
 # Install
 
-Install salep globally:
+## Node.js
 ```
-npm install --global salep
+npm install salep
 ```
+## Smartface
 
-or install as a dependency to your project
+If you are developing a Smartface application go to `scripts` folder of your workspace and install `salep`.
 ```
-npm install --save-dev salep
+cd ~/workspace/scripts && npm install salep
 ```
+## Other Platforms
+
+You can get standalone Javascript distribution from [releases](https://github.com/mhalitk/salep/releases) and run on your Javascript system before `salep` test codes.
 
 # Usage
 
-Here is a sample test code using salep
+Here is a sample test code using salep, for more information you can check [api documentation](https://mhalitk.github.io/salep/).
 
 ```javascript
 require('salep');
@@ -70,3 +74,8 @@ console.log(result.fail + " Failed");
 console.log(result.success + " Succeeded");
 console.log(result.skip + " Skipped");
 console.log(result.total + " Total");
+```
+
+# License
+
+[MIT](https://github.com/mhalitk/salep/blob/master/LICENSE)
