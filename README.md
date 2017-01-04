@@ -1,5 +1,7 @@
 # salep
 
+[![CircleCI](https://circleci.com/gh/mhalitk/salep.svg?style=svg)](https://circleci.com/gh/mhalitk/salep)
+
 salep is platform independent Javascript testing framework. It basically puts itself into global scope and runs while your code is running. It gives all collected test informations as JS object when you stopped it. That's it.
 
 # Install
