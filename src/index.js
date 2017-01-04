@@ -34,6 +34,35 @@ const salep = {
   },
 
   /**
+   * @method off
+   *
+   * @desc
+   * This function allows removing callbacks from events. Every callback
+   * added with 'on' function can be removed with this function.
+   *
+   * @param {String}    eventName         Event name to remove callback from
+   * @param {Function}  callbackToRemove  Callback to remove
+   *
+   * @example
+   * function myCallback(test) {
+   *   // do some stuff
+   * }
+   * salep.on('testStart', myCallback);
+   * ...
+   * salep.off('testStart', myCallback);
+   */
+  off: function(eventName, callbackToRemove) {
+    if (callbacks[eventName]) {
+      for (var i = 0; i < callbacks[eventName].length; i++) {
+        if (callbacks[eventName][i] === callbackToRemove) {
+          callbacks[eventName].splice(i, 1);
+          break
+        }
+      }
+    }
+  },
+
+  /**
    * @method run
    *
    * @desc
@@ -53,18 +82,18 @@ const salep = {
    * not invoked ever). After stop function invoked all following tests and cases 
    * will be counted and recorded as skipped.
    * 
-   * @returns {Object} result         JS object containing test information
+   * @returns {Result} result Result object containing test results
    */
   stop: function() {
     salep.isRunning = false;
-    var result =  {
+    var result = new Result({
       success: successCount,
       fail: failCount,
       skip: skipCount,
       total: totalCount,
       tests: salep.tests,
       cases: salep.cases
-    };
+    });
     successCount = failCount = totalCount = skipCount = 0;
     return result;
   },
@@ -102,7 +131,7 @@ const salep = {
       salep.tests.push(_test);
     }
 
-    if (salep.isRunning) {
+    if (salep.isRunning && !skipNextEnabled) {
       testStart(_test);
       func.call(_test);
     } else {
@@ -111,6 +140,25 @@ const salep = {
     }
 
     level--;
+  },
+
+  /**
+   * @method skipNext
+   * 
+   * @desc
+   * This function helps skipping tests/cases. If you want to skip a case or
+   * test, run this function right before test or case definition.
+   * 
+   * @example
+   * salep.skipNext();
+   * salep.case("salep will skip this case", function() {
+   *   if (!someFunction()) {
+   *     throw "Exception";
+   *   }
+   * });
+   */
+  skipNext: function() {
+    skipNextEnabled = true;
   },
 
   /**
@@ -146,7 +194,7 @@ const salep = {
       salep.cases.push(_case);
     }
 
-    if (salep.isRunning) {
+    if (salep.isRunning && !skipNextEnabled) {
       caseStart(_case);
       try {
         func();
@@ -166,6 +214,9 @@ const salep = {
 };
 
 global.salep = salep;
+
+// Privates
+var skipNextEnabled = false;
 
 // Event mechanism
 var successCount = 0;
@@ -227,6 +278,7 @@ function success(testCase) {
 
 function skip(testOrCase) {
   skipCount++;
+  skipNextEnabled = false;
   /**
    * This event fires when a test or case has skipped.
    * 
@@ -275,6 +327,71 @@ function Case(params) {
   this.level = level;
   this.reason = "";
   this.parent = null;
+
+  if (params) for (var param in params) {
+    if (this.hasOwnProperty(param)) {
+      this[param] = params[param];
+    }
+  }
+}
+
+/**
+ * @class
+ * 
+ * @desc
+ * This class represents results of salep tests. It helps you
+ * see summary of tests with fail, success, skip and total counts.
+ * Result also has all tests and their case objects, so if it is
+ * needed you can iterate on them and see which test have which
+ * cases, which case failed and why, etc.
+ */
+function Result(params) {
+  /**
+   * @desc
+   * Indicates number of successful cases
+   * 
+   * @type {number}
+   */
+  this.success = 0;
+  /**
+   * @desc
+   * Indicates number of failed cases
+   * 
+   * @type {number}
+   */
+  this.fail = 0;
+  /**
+   * @desc
+   * Indicates number of skipped cases
+   * 
+   * @type {number}
+   */
+  this.skip = 0;
+  /**
+   * @desc
+   * Indicates number of total cases
+   * 
+   * @type {number}
+   */
+  this.total = 0;
+  /**
+   * @desc
+   * This property holds all tests written in salep scope.
+   * Nested tests written inside tests will be nested. Just salep.test's
+   * are listed here. 
+   * 
+   * @type {Test[]}
+   */
+  this.tests = null;
+  /**
+   * @desc
+   * This property holds all test cases written in salep scope. Cases
+   * inside tests is not listed inside this property. Just salep.case's
+   * are listed here.
+   * 
+   * @type {Case[]}
+   */
+  this.cases = null;
 
   if (params) for (var param in params) {
     if (this.hasOwnProperty(param)) {
