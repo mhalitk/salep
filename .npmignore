@@ -1,7 +1,10 @@
+.eslintrc.json
+.npmignore
+.travis.yml
 .vscode
+coverage
 docs
 node_modules
 test
 jsdoc.conf
 circle.yml
-.travis.yml
