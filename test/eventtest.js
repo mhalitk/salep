@@ -1,3 +1,5 @@
+var testResult = true;
+
 require("../src/index.js");
 
 var caseStartEventCount = 0;
@@ -10,6 +12,9 @@ var successEventCount = 0;
 var shouldSuccessEventCount = 0;
 var testStartEventCount = 0;
 var shouldTestStartEventCount = 0;
+
+var disabledCallbackCount = 0;
+var shouldDisabledCallbackCount = 0;
 
 salep.on("caseStart", function() {
   caseStartEventCount++;
@@ -26,6 +31,20 @@ salep.on("success", function() {
 salep.on("testStart", function() {
   testStartEventCount++;
 });
+
+function disableThisCb() {
+  disabledCallbackCount++;
+}
+salep.on("caseStart", disableThisCb);
+salep.off("caseStart", disableThisCb);
+salep.on("fail", disableThisCb);
+salep.off("fail", disableThisCb);
+salep.on("skip", disableThisCb);
+salep.off("skip", disableThisCb);
+salep.on("success", disableThisCb);
+salep.off("success", disableThisCb);
+salep.on("testStart", disableThisCb);
+salep.off("testStart", disableThisCb);
 
 salep.test("Will skip this test", function() {
   this.case("Shouldn't increment skip count since this case inside a skipped test", function() {
@@ -62,12 +81,13 @@ shouldTestStartEventCount++;
 
 var result = salep.stop();
 
-if (caseStartEventCount === shouldCaseStartEventCount &&
-    failEventCount === shouldFailEventCount &&
-    skipEventCount === shouldSkipEventCount &&
-    successEventCount === shouldSuccessEventCount &&
-    testStartEventCount === shouldTestStartEventCount) {
-  exports.success = true;
-} else {
-  exports.success = false;
+if (caseStartEventCount !== shouldCaseStartEventCount ||
+    failEventCount !== shouldFailEventCount ||
+    skipEventCount !== shouldSkipEventCount ||
+    successEventCount !== shouldSuccessEventCount ||
+    testStartEventCount !== shouldTestStartEventCount ||
+    disabledCallbackCount !== shouldDisabledCallbackCount) {
+  testResult = false;
 }
+
+exports.success = testResult;

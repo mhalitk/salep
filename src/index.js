@@ -34,6 +34,35 @@ const salep = {
   },
 
   /**
+   * @method off
+   *
+   * @desc
+   * This function allows removing callbacks from events. Every callback
+   * added with 'on' function can be removed with this function.
+   *
+   * @param {String}    eventName         Event name to remove callback from
+   * @param {Function}  callbackToRemove  Callback to remove
+   *
+   * @example
+   * function myCallback(test) {
+   *   // do some stuff
+   * }
+   * salep.on('testStart', myCallback);
+   * ...
+   * salep.off('testStart', myCallback);
+   */
+  off: function(eventName, callbackToRemove) {
+    if (callbacks[eventName]) {
+      for (var i = 0; i < callbacks[eventName].length; i++) {
+        if (callbacks[eventName][i] === callbackToRemove) {
+          callbacks[eventName].splice(i, 1);
+          break
+        }
+      }
+    }
+  },
+
+  /**
    * @method run
    *
    * @desc
