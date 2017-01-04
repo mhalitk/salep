@@ -1,6 +1,6 @@
 # salep
 
-[![Build Status](https://travis-ci.org/mhalitk/salep.svg?branch=master)](https://travis-ci.org/mhalitk/salep) [![codecov](https://codecov.io/gh/mhalitk/salep/branch/master/graph/badge.svg)](https://codecov.io/gh/mhalitk/salep) [![dependencies](https://img.shields.io/badge/dependencies-none-brightgreen.svg)](https://github.com/mhalitk/salep) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mhalitk/salep/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/mhalitk/salep.svg?branch=master)](https://travis-ci.org/mhalitk/salep) [![codecov](https://codecov.io/gh/mhalitk/salep/branch/master/graph/badge.svg)](https://codecov.io/gh/mhalitk/salep) [![dependencies](https://img.shields.io/badge/dependencies-none-brightgreen.svg)](https://github.com/mhalitk/salep) [![GitHub version](https://badge.fury.io/gh/mhalitk%2Fsalep.svg)](https://github.com/mhalitk/salep/releases) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mhalitk/salep/blob/master/LICENSE)
 
 salep is platform independent Javascript testing framework. It basically puts itself into global scope and runs while your code is running. It gives all collected test informations as JS object whenever you requested.
 
