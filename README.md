@@ -1,6 +1,6 @@
 # salep
 
-[![CircleCI](https://circleci.com/gh/mhalitk/salep.svg?style=svg)](https://circleci.com/gh/mhalitk/salep) [![codecov](https://codecov.io/gh/mhalitk/salep/branch/master/graph/badge.svg)](https://codecov.io/gh/mhalitk/salep)
+[![Build Status](https://travis-ci.org/mhalitk/salep.svg?branch=master)](https://travis-ci.org/mhalitk/salep) [![codecov](https://codecov.io/gh/mhalitk/salep/branch/master/graph/badge.svg)](https://codecov.io/gh/mhalitk/salep)
 
 salep is platform independent Javascript testing framework. It basically puts itself into global scope and runs while your code is running. It gives all collected test informations as JS object when you stopped it. That's it.
 
