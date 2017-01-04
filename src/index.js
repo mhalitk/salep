@@ -102,8 +102,8 @@ const salep = {
       salep.tests.push(_test);
     }
 
-    testStart(_test);
     if (salep.isRunning) {
+      testStart(_test);
       func.call(_test);
     } else {
       _test.skipped = true;
@@ -146,8 +146,8 @@ const salep = {
       salep.cases.push(_case);
     }
 
-    caseStart(_case);
     if (salep.isRunning) {
+      caseStart(_case);
       try {
         func();
         _case.success = true;
