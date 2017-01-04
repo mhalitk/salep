@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.conf -t node_modules/minami",
-    "test": "node ./test"
+    "test": "node_modules/.bin/istanbul cover test"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/mhalitk/salep#readme",
   "devDependencies": {
     "jsdoc": "^3.4.3",
-    "minami": "^1.1.1"
+    "minami": "^1.1.1",
+    "istanbul": "*"
   }
 }

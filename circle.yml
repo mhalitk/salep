@@ -1,3 +1,5 @@
 test:
   override:
     - npm run test
+  post:
+    - bash <(curl -s https://codecov.io/bash)
