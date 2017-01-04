@@ -131,7 +131,7 @@ const salep = {
       salep.tests.push(_test);
     }
 
-    if (salep.isRunning) {
+    if (salep.isRunning && !skipNextEnabled) {
       testStart(_test);
       func.call(_test);
     } else {
@@ -140,6 +140,25 @@ const salep = {
     }
 
     level--;
+  },
+
+  /**
+   * @method skipNext
+   * 
+   * @desc
+   * This function helps skipping tests/cases. If you want to skip a case or
+   * test, run this function right before test or case definition.
+   * 
+   * @example
+   * salep.skipNext();
+   * salep.case("salep will skip this case", function() {
+   *   if (!someFunction()) {
+   *     throw "Exception";
+   *   }
+   * });
+   */
+  skipNext: function() {
+    skipNextEnabled = true;
   },
 
   /**
@@ -175,7 +194,7 @@ const salep = {
       salep.cases.push(_case);
     }
 
-    if (salep.isRunning) {
+    if (salep.isRunning && !skipNextEnabled) {
       caseStart(_case);
       try {
         func();
@@ -195,6 +214,9 @@ const salep = {
 };
 
 global.salep = salep;
+
+// Privates
+var skipNextEnabled = false;
 
 // Event mechanism
 var successCount = 0;
@@ -256,6 +278,7 @@ function success(testCase) {
 
 function skip(testOrCase) {
   skipCount++;
+  skipNextEnabled = false;
   /**
    * This event fires when a test or case has skipped.
    * 

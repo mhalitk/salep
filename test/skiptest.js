@@ -28,6 +28,18 @@ salep.case("should skip this case and count it as skipped", function() {
 shouldSkipCount++;
 
 salep.run();
+
+salep.skipNext();
+salep.case("skipNext test", function() {
+  // empty
+});
+shouldSkipCount++;
+
+salep.case("this shouldn't skip", function() {
+  // empty
+});
+shouldSuccessCount++;
+
 var result = salep.stop();
 
 if (result.skip === shouldSkipCount &&
