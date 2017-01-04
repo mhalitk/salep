@@ -4,8 +4,6 @@ var shouldFailCount = 0;
 var shouldSkipCount = 0;
 var shouldSuccessCount = 0;
 
-salep.run();
-
 salep.test("A test without any case", function() {
 
 });

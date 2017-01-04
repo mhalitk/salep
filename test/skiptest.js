@@ -5,7 +5,8 @@ var shouldFailCount = 0;
 var shouldSuccessCount = 0;
 var totalCount = 0;
 
-// Skipping salep tests
+// Skipping salep 
+salep.skipNext();
 salep.test("should skip this test", function() {
   this.case("this case shouldn't increment skip count since test fully skipped", function() {
     // empty
@@ -22,16 +23,9 @@ salep.test("should skip this test", function() {
 shouldSkipCount++;
 
 // Skipping salep cases
+salep.skipNext();
 salep.case("should skip this case and count it as skipped", function() {
   throw "This exception shouldn't affect skip status";
-});
-shouldSkipCount++;
-
-salep.run();
-
-salep.skipNext();
-salep.case("skipNext test", function() {
-  // empty
 });
 shouldSkipCount++;
 
@@ -40,7 +34,7 @@ salep.case("this shouldn't skip", function() {
 });
 shouldSuccessCount++;
 
-var result = salep.stop();
+var result = salep.getResults();
 
 if (result.skip === shouldSkipCount &&
   result.fail === shouldFailCount &&

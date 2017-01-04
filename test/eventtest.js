@@ -46,19 +46,20 @@ salep.off("success", disableThisCb);
 salep.on("testStart", disableThisCb);
 salep.off("testStart", disableThisCb);
 
+salep.stop();
 salep.test("Will skip this test", function() {
   this.case("Shouldn't increment skip count since this case inside a skipped test", function() {
 
   });
 });
 shouldSkipEventCount++;
+salep.run();
 
+salep.skipNext();
 salep.case("Will skip this case", function() {
   
 });
 shouldSkipEventCount++;
-
-salep.run();
 
 salep.test("Test with inner test", function() {
   this.test("Inner tests will cause testStart event too", function() {

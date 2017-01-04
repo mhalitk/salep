@@ -9,7 +9,7 @@
 const salep = {
   tests: [],
   cases: [],
-  isRunning: false,
+  isRunning: true,
 
   /**
    * @method on
@@ -68,6 +68,10 @@ const salep = {
    * @desc
    * Enables salep testing. All the tests and cases before salep.run method
    * executed will be counted and recorded as skipped.
+   * 
+   * @deprecated
+   * Since 0.2.0, salep starts in running mode as default. You don't need to
+   * use run function unless you used stop function. 
    */
   run: function() {
     salep.isRunning = true;
@@ -82,7 +86,11 @@ const salep = {
    * not invoked ever). After stop function invoked all following tests and cases 
    * will be counted and recorded as skipped.
    * 
-   * @returns {Result} result Result object containing test results
+   * @returns {Result} Result object containing test results
+   * 
+   * @deprecated 
+   * Since 0.2.0, when used it will cause salep skip tests and cases,
+   * this behaviour will continue until run function called.
    */
   stop: function() {
     salep.isRunning = false;
@@ -96,6 +104,27 @@ const salep = {
     });
     successCount = failCount = totalCount = skipCount = 0;
     return result;
+  },
+
+  /**
+   * @method getResults
+   * 
+   * @desc
+   * This method will return results of tests and cases from
+   * the beginning. If salep.stop is called at some point return value
+   * will just have the results after that call.
+   * 
+   * @return {Result} Result object containing test results
+   */
+  getResults: function() {
+    return new Result({
+      success: successCount,
+      fail: failCount,
+      skip: skipCount,
+      total: totalCount,
+      tests: salep.tests,
+      cases: salep.cases
+    });
   },
 
   /**

@@ -45,9 +45,6 @@ salep.on("success", function(testCase) {
   console.log("Case [" + testCase.name + "] finished with success");
 });
 
-// Start salep
-salep.run();
-
 // Write tests and cases
 salep.test("Add/Fibonacci Functions Test", function() {
   // This will be recorded as success
@@ -68,7 +65,7 @@ salep.test("Add/Fibonacci Functions Test", function() {
 });
 
 // Get results
-var result = salep.stop();
+var result = salep.getResults();
 console.log(result.fail + " Failed");
 console.log(result.success + " Succeeded");
 console.log(result.skip + " Skipped");
