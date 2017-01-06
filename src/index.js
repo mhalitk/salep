@@ -306,6 +306,7 @@ function success(testCase) {
 }
 
 function skip(testOrCase) {
+  totalCount++;
   skipCount++;
   skipNextEnabled = false;
   /**

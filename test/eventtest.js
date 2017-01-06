@@ -1,3 +1,4 @@
+/** globals salep */
 var testResult = true;
 
 require("../src/index.js");
@@ -82,11 +83,11 @@ shouldTestStartEventCount++;
 
 var result = salep.stop();
 
-if (caseStartEventCount !== shouldCaseStartEventCount ||
-    failEventCount !== shouldFailEventCount ||
-    skipEventCount !== shouldSkipEventCount ||
-    successEventCount !== shouldSuccessEventCount ||
-    testStartEventCount !== shouldTestStartEventCount ||
+if (caseStartEventCount   !== shouldCaseStartEventCount ||
+    failEventCount        !== shouldFailEventCount ||
+    skipEventCount        !== shouldSkipEventCount ||
+    successEventCount     !== shouldSuccessEventCount ||
+    testStartEventCount   !== shouldTestStartEventCount ||
     disabledCallbackCount !== shouldDisabledCallbackCount) {
   testResult = false;
 }
