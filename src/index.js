@@ -456,13 +456,74 @@ function Test(params) {
   }
 }
 
-// @todo Write documentation of Case class
+/**
+ * @class Case
+ * 
+ * @desc
+ * This class represents case written inside tests and salep scope.
+ * For every case ran or skipped in salep, there is a case object created and
+ * stored. Those case objects are accessible from results.
+ * 
+ * @example
+ * salep.test("A test", function() {
+ *   salep.case("Case 1", function() {
+ *     // Continue to case
+ *   });
+ * });
+ * 
+ * ...
+ * 
+ * var result = salep.getResults();
+ * result.tests.forEach(function(test) {
+ *   test.cases.forEach(function(case) {
+ *     if (case.success === false) {
+ *       console.log("Case [" + case.name + "] failed, reason: " + case.reason);
+ *     }
+ *   });
+ * });
+ */
 function Case(params) {
+  /**
+   * @desc
+   * Name of the case
+   * 
+   * @type {string}
+   */
   this.name = "";
+
+  /**
+   * @desc
+   * Success status of case, true if case succeeded false otherwise
+   * 
+   * @type {boolean}
+   */
   this.success = false;
+
+  /**
+   * @desc
+   * Indicates if case skipped or not.
+   * 
+   * @type {boolean}
+   */
   this.skipped = false;
+
   this.level = level;
+
+  /**
+   * @desc
+   * Declares the reason of failure if case is failed. If case is
+   * succeded or skipped this property equals to empty string
+   * 
+   * @type {string}
+   */
   this.reason = "";
+
+  /**
+   * @desc
+   * Indicates the parent test of case.
+   * 
+   * @type {Test}
+   */
   this.parent = null;
 
   if (params) for (var param in params) {

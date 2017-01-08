@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Result - Documentation</title>
+    <title>Case - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,7 +28,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Result</h1>
+    <h1 class="page-title">Case</h1>
     
 
     
@@ -43,7 +43,7 @@
         <h2>
             <span class="ancestors"><a href="module-salep.html">salep</a>~</span>
         
-        Result
+        Case
         </h2>
         
     
@@ -56,18 +56,16 @@
 
     
 
-    <h4 class="name" id="Result"><span class="type-signature"></span>new Result<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Case"><span class="type-signature"></span>new Case<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>This class represents results of salep tests. It helps you
-see summary of tests with fail, success, skip and total counts.
-Result also has all tests and their case objects, so if it is
-needed you can iterate on them and see which test have which
-cases, which case failed and why, etc.</p>
+    <p>This class represents case written inside tests and salep scope.
+For every case ran or skipped in salep, there is a case object created and
+stored. Those case objects are accessible from results.</p>
 </div>
 
 
@@ -111,7 +109,7 @@ cases, which case failed and why, etc.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line546">line 546</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line459">line 459</a>
     </li></ul></dd>
     
 
@@ -134,6 +132,26 @@ cases, which case failed and why, etc.</p>
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>salep.test("A test", function() {
+  salep.case("Case 1", function() {
+    // Continue to case
+  });
+});
+
+...
+
+var result = salep.getResults();
+result.tests.forEach(function(test) {
+  test.cases.forEach(function(case) {
+    if (case.success === false) {
+      console.log("Case [" + case.name + "] failed, reason: " + case.reason);
+    }
+  });
+});</code></pre>
 
 
 
@@ -155,15 +173,13 @@ cases, which case failed and why, etc.</p>
 
         
             
-<h4 class="name" id="cases"><span class="type-signature"></span>cases<span class="type-signature"> :Array.&lt;Case></span></h4>
+<h4 class="name" id="name"><span class="type-signature"></span>name<span class="type-signature"> :string</span></h4>
 
 
 
 
 <div class="description">
-    <p>This property holds all test cases written in salep scope. Cases
-inside tests is not listed inside this property. Just salep.case's
-are listed here.</p>
+    <p>Name of the case</p>
 </div>
 
 
@@ -172,7 +188,7 @@ are listed here.</p>
     <ul>
         <li>
             
-<span class="param-type">Array.&lt;Case></span>
+<span class="param-type">string</span>
 
 
         </li>
@@ -211,7 +227,7 @@ are listed here.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line592">line 592</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line492">line 492</a>
     </li></ul></dd>
     
 
@@ -229,13 +245,13 @@ are listed here.</p>
 
         
             
-<h4 class="name" id="fail"><span class="type-signature"></span>fail<span class="type-signature"> :number</span></h4>
+<h4 class="name" id="parent"><span class="type-signature"></span>parent<span class="type-signature"> :Test</span></h4>
 
 
 
 
 <div class="description">
-    <p>Indicates number of failed cases</p>
+    <p>Indicates the parent test of case.</p>
 </div>
 
 
@@ -244,7 +260,7 @@ are listed here.</p>
     <ul>
         <li>
             
-<span class="param-type">number</span>
+<span class="param-type">Test</span>
 
 
         </li>
@@ -283,7 +299,7 @@ are listed here.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line560">line 560</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line527">line 527</a>
     </li></ul></dd>
     
 
@@ -301,13 +317,14 @@ are listed here.</p>
 
         
             
-<h4 class="name" id="skip"><span class="type-signature"></span>skip<span class="type-signature"> :number</span></h4>
+<h4 class="name" id="reason"><span class="type-signature"></span>reason<span class="type-signature"> :string</span></h4>
 
 
 
 
 <div class="description">
-    <p>Indicates number of skipped cases</p>
+    <p>Declares the reason of failure if case is failed. If case is
+succeded or skipped this property equals to empty string</p>
 </div>
 
 
@@ -316,7 +333,7 @@ are listed here.</p>
     <ul>
         <li>
             
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
         </li>
@@ -355,7 +372,7 @@ are listed here.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line567">line 567</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line519">line 519</a>
     </li></ul></dd>
     
 
@@ -373,13 +390,13 @@ are listed here.</p>
 
         
             
-<h4 class="name" id="success"><span class="type-signature"></span>success<span class="type-signature"> :number</span></h4>
+<h4 class="name" id="skipped"><span class="type-signature"></span>skipped<span class="type-signature"> :boolean</span></h4>
 
 
 
 
 <div class="description">
-    <p>Indicates number of successful cases</p>
+    <p>Indicates if case skipped or not.</p>
 </div>
 
 
@@ -388,7 +405,7 @@ are listed here.</p>
     <ul>
         <li>
             
-<span class="param-type">number</span>
+<span class="param-type">boolean</span>
 
 
         </li>
@@ -427,7 +444,7 @@ are listed here.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line553">line 553</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line508">line 508</a>
     </li></ul></dd>
     
 
@@ -445,15 +462,13 @@ are listed here.</p>
 
         
             
-<h4 class="name" id="tests"><span class="type-signature"></span>tests<span class="type-signature"> :Array.&lt;Test></span></h4>
+<h4 class="name" id="success"><span class="type-signature"></span>success<span class="type-signature"> :boolean</span></h4>
 
 
 
 
 <div class="description">
-    <p>This property holds all tests written in salep scope.
-Nested tests written inside tests will be nested. Just salep.test's
-are listed here.</p>
+    <p>Success status of case, true if case succeeded false otherwise</p>
 </div>
 
 
@@ -462,7 +477,7 @@ are listed here.</p>
     <ul>
         <li>
             
-<span class="param-type">Array.&lt;Test></span>
+<span class="param-type">boolean</span>
 
 
         </li>
@@ -501,79 +516,7 @@ are listed here.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line583">line 583</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="total"><span class="type-signature"></span>total<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    <p>Indicates number of total cases</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line574">line 574</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line500">line 500</a>
     </li></ul></dd>
     
 
