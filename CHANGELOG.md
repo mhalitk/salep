@@ -6,6 +6,10 @@
 
 - Fix skipped cases effect to total count (Issue #5)
 
+### Other
+
+- Document Result, Test and Case classes
+
 ## v0.2.0 / 04.01.2017
 
 ### Added
