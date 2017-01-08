@@ -217,12 +217,7 @@
       var _case = new Case({
         name: name
       });
-
-      if (this instanceof Test) {
-        this.cases.push(_case);
-      } else {
-        salep.cases.push(_case);
-      }
+      salep.cases.push(_case);
 
       if (salep.isRunning && !skipNextEnabled) {
         caseStart(_case);
@@ -404,6 +399,7 @@
      * case. With this functionality you can set up environment you
      * will use in cases. If before each callback fails (throws 
      * exception), it causes all cases to be counted as failed too.
+     * Before each callback should be set before all case definitions.
      * 
      * @example
      * salep.test("A test", function() {
@@ -422,10 +418,43 @@
      *     instance.bar();
      *   });
      * });
+     * 
      */
     this.beforeEach = function(beforeEachCb) {
       if (beforeEachCb instanceof Function) {
         _beforeEachCb = beforeEachCb;
+      }
+    }
+
+    var _afterEachCb = null;
+    /**
+     * @method afterEach
+     * 
+     * @desc
+     * This function allows setting a callback that runs after each case.
+     * If after each callback fails (throws exception), it causes all cases
+     * to be counted as failed too. After each callback should be set 
+     * before all case definitons.
+     * 
+     * @example
+     * salep.test("File test", function() {
+     *   var filePath = "path/to/file";
+     * 
+     *   // After each case remove file
+     *   this.afterEach(function() {
+     *     removeFile(filePath);
+     *   });
+     *   
+     *   this.case("write to file case", function() {
+     *     // Assume below function creates file in filePath
+     *     writeToFile(filePath, "Text");
+     *   });
+     * });
+     * 
+     */
+    this.afterEach = function(afterEachCb) {
+      if (afterEachCb instanceof Function) {
+        _afterEachCb = afterEachCb;
       }
     }
 
@@ -485,13 +514,15 @@
           var _case = new Case({
             name: name
           });
-
           this.cases.push(_case);
+
           if (salep.isRunning && !skipNextEnabled) {
             caseStart(_case);
             try {
               _beforeEachCb && _beforeEachCb();
               func();
+              _afterEachCb && _afterEachCb();
+
               _case.success = true;
               success(_case);
             } catch (e) {
@@ -541,6 +572,7 @@
    *     }
    *   });
    * });
+   * 
    */
   function Case(params) {
     /**
@@ -594,7 +626,7 @@
   }
 
   /**
-   * @class
+   * @class Result
    * 
    * @desc
    * This class represents results of salep tests. It helps you

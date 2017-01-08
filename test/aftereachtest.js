@@ -4,9 +4,9 @@ var testResult = true;
 require("../src/index.js");
 
 salep.test("A test", function() {
-  var testValue = -1;
+  var testValue = 0;
 
-  this.beforeEach(function() {
+  this.afterEach(function() {
     testValue = 0;
   });
 
@@ -32,27 +32,27 @@ salep.test("A test", function() {
 });
 
 salep.test("Negative test", function() {
-    this.beforeEach();
+    this.afterEach();
     this.case("Case 1", function() {
       // Go for success!
     });
 
-    this.beforeEach(null);
+    this.afterEach(null);
     this.case("Case 2", function() {
       // Go for success!
     });
 
-    this.beforeEach({});
+    this.afterEach({});
     this.case("Case 3", function() {
       // Go for success!
     });
 
-    this.beforeEach([]);
+    this.afterEach([]);
     this.case("Case 4", function() {
       // Go for success!
     });
 
-    this.beforeEach(1);
+    this.afterEach(1);
     this.case("Case 5", function() {
       // Go for success!
     });

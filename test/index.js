@@ -8,10 +8,12 @@ var negativePathsResult = require('./negativepaths');
 delete require.cache[require.resolve('../src/index.js')];
 var beforeTest = require('././beforetest');
 delete require.cache[require.resolve('../src/index.js')];
+var afterEachTest = require('././aftereachtest');
+delete require.cache[require.resolve('../src/index.js')];
 
 if (skipTestResult.success && failTestResult.success && 
     eventTestResult.success && negativePathsResult.success &&
-    beforeTest.success) {
+    beforeTest.success && afterEachTest.success) {
   process.exit(0);
 } else {
   process.exit(1);
