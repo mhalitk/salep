@@ -395,7 +395,43 @@
      */
     this.tests = [];
 
+    var _beforeEachCb = null;
     /**
+     * @method beforeEach
+     * 
+     * @desc
+     * This function allows setting a callback that runs before each
+     * case. With this functionality you can set up environment you
+     * will use in cases. If before each callback fails (throws 
+     * exception), it causes all cases to be counted as failed too.
+     * 
+     * @example
+     * salep.test("A test", function() {
+     *   var instance = null;
+     *   this.beforeEach(function() {
+     *     instance = new ClassToTest();
+     *   });
+     *   
+     *   this.case("foo case", function() {
+     *     // This instance created before case runs
+     *     instance.foo();
+     *   });
+     * 
+     *   this.case("bar case", function() {
+     *     // This instance isn't the same instance with foo case's instance
+     *     instance.bar();
+     *   });
+     * });
+     */
+    this.beforeEach = function(beforeEachCb) {
+      if (beforeEachCb instanceof Function) {
+        _beforeEachCb = beforeEachCb;
+      }
+    }
+
+    /**
+     * @method test
+     * 
      * @desc
      * This function creates a new test inside current test scope with given name
      * and test function.
@@ -445,7 +481,30 @@
      * });
      */
     Object.defineProperty(this, 'case', {
-      value: salep.case.bind(this),
+      value: function(name, func) {
+          var _case = new Case({
+            name: name
+          });
+
+          this.cases.push(_case);
+          if (salep.isRunning && !skipNextEnabled) {
+            caseStart(_case);
+            try {
+              _beforeEachCb && _beforeEachCb();
+              func();
+              _case.success = true;
+              success(_case);
+            } catch (e) {
+              _case.success = false;
+              _case.reason = e;
+              fail(_case);
+            }
+          } else {
+            _case.skipped = true;
+            _case.success = false;
+            skip(_case);
+          }
+        },
       enumerable: false,
       configurable: false
     });
