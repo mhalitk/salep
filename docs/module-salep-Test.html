@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Result - Documentation</title>
+    <title>Test - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,7 +28,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Result</h1>
+    <h1 class="page-title">Test</h1>
     
 
     
@@ -43,7 +43,7 @@
         <h2>
             <span class="ancestors"><a href="module-salep.html">salep</a>~</span>
         
-        Result
+        Test
         </h2>
         
     
@@ -56,18 +56,19 @@
 
     
 
-    <h4 class="name" id="Result"><span class="type-signature"></span>new Result<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Test"><span class="type-signature"></span>new Test<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>This class represents results of salep tests. It helps you
-see summary of tests with fail, success, skip and total counts.
-Result also has all tests and their case objects, so if it is
-needed you can iterate on them and see which test have which
-cases, which case failed and why, etc.</p>
+    <p>This class represents a test which has a name and function.
+Test function runs in a Test object scope created with given name.
+So when you use 'this' inside test funcion it doesn't represents
+global object instead it points to test object. This provides you
+to add properties to test inside test cases and access them when you
+get results.</p>
 </div>
 
 
@@ -111,7 +112,7 @@ cases, which case failed and why, etc.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line485">line 485</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line324">line 324</a>
     </li></ul></dd>
     
 
@@ -134,6 +135,25 @@ cases, which case failed and why, etc.</p>
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>salep.test("A test", function() {
+   salep.case("object creation with string", function() {
+     test.serverStatus = getServerStatus();
+     // Continue to case
+   });
+});
+
+...
+
+var result = salep.getResults();
+result.tests.forEach(function(test) {
+  if (test.name === "A test") {
+    console.log("Server status was '" + test.serverStatus + "' when test ran");
+  }
+});</code></pre>
 
 
 
@@ -161,9 +181,7 @@ cases, which case failed and why, etc.</p>
 
 
 <div class="description">
-    <p>This property holds all test cases written in salep scope. Cases
-inside tests is not listed inside this property. Just salep.case's
-are listed here.</p>
+    <p>This property is cases array which hold all cases defined in test.</p>
 </div>
 
 
@@ -211,7 +229,7 @@ are listed here.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line531">line 531</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line386">line 386</a>
     </li></ul></dd>
     
 
@@ -229,13 +247,15 @@ are listed here.</p>
 
         
             
-<h4 class="name" id="fail"><span class="type-signature"></span>fail<span class="type-signature"> :number</span></h4>
+<h4 class="name" id="level"><span class="type-signature"></span>level<span class="type-signature"> :number</span></h4>
 
 
 
 
 <div class="description">
-    <p>Indicates number of failed cases</p>
+    <p>Indicates nesting level of test. A test can have tests too, every nested
+case will have +1 level of its parent test. Root tests, created using
+salep.test, have level of 0.</p>
 </div>
 
 
@@ -283,7 +303,7 @@ are listed here.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line499">line 499</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line378">line 378</a>
     </li></ul></dd>
     
 
@@ -301,13 +321,13 @@ are listed here.</p>
 
         
             
-<h4 class="name" id="skip"><span class="type-signature"></span>skip<span class="type-signature"> :number</span></h4>
+<h4 class="name" id="name"><span class="type-signature"></span>name<span class="type-signature"> :string</span></h4>
 
 
 
 
 <div class="description">
-    <p>Indicates number of skipped cases</p>
+    <p>Name of the test.</p>
 </div>
 
 
@@ -316,7 +336,7 @@ are listed here.</p>
     <ul>
         <li>
             
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
         </li>
@@ -355,7 +375,7 @@ are listed here.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line506">line 506</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line359">line 359</a>
     </li></ul></dd>
     
 
@@ -373,13 +393,14 @@ are listed here.</p>
 
         
             
-<h4 class="name" id="success"><span class="type-signature"></span>success<span class="type-signature"> :number</span></h4>
+<h4 class="name" id="skipped"><span class="type-signature"></span>skipped<span class="type-signature"> :boolean</span></h4>
 
 
 
 
 <div class="description">
-    <p>Indicates number of successful cases</p>
+    <p>Indicates if test skipped or not. If a test is skipped all cases inside
+test will not be counted in anywhere.</p>
 </div>
 
 
@@ -388,7 +409,7 @@ are listed here.</p>
     <ul>
         <li>
             
-<span class="param-type">number</span>
+<span class="param-type">boolean</span>
 
 
         </li>
@@ -427,7 +448,7 @@ are listed here.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line492">line 492</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line368">line 368</a>
     </li></ul></dd>
     
 
@@ -451,9 +472,8 @@ are listed here.</p>
 
 
 <div class="description">
-    <p>This property holds all tests written in salep scope.
-Nested tests written inside tests will be nested. Just salep.test's
-are listed here.</p>
+    <p>This property holds all nested tests defined in current test. 
+All nested tests will have +1 level of current test.</p>
 </div>
 
 
@@ -501,79 +521,7 @@ are listed here.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line522">line 522</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="total"><span class="type-signature"></span>total<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    <p>Indicates number of total cases</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line513">line 513</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line395">line 395</a>
     </li></ul></dd>
     
 

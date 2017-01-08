@@ -321,21 +321,128 @@ function skip(testOrCase) {
 // Testing functionalities
 var level = 0;
 
-// Helper classes
-// @todo Write documentation of Test class
+/**
+ * @class Test
+ * 
+ * @desc
+ * This class represents a test which has a name and function.
+ * Test function runs in a Test object scope created with given name.
+ * So when you use 'this' inside test funcion it doesn't represents
+ * global object instead it points to test object. This provides you
+ * to add properties to test inside test cases and access them when you
+ * get results. 
+ * 
+ * @example
+ * salep.test("A test", function() {
+ *    salep.case("object creation with string", function() {
+ *      test.serverStatus = getServerStatus();
+ *      // Continue to case
+ *    });
+ * });
+ * 
+ * ...
+ * 
+ * var result = salep.getResults();
+ * result.tests.forEach(function(test) {
+ *   if (test.name === "A test") {
+ *     console.log("Server status was '" + test.serverStatus + "' when test ran");
+ *   }
+ * });
+ */
 function Test(params) {
+  /**
+   * @desc
+   * Name of the test.
+   * 
+   * @type {string}
+   */
   this.name = "";
+
+  /**
+   * @desc
+   * Indicates if test skipped or not. If a test is skipped all cases inside
+   * test will not be counted in anywhere.
+   * 
+   * @type {boolean}
+   */
   this.skipped = false;
+
+  /**
+   * @desc
+   * Indicates nesting level of test. A test can have tests too, every nested
+   * case will have +1 level of its parent test. Root tests, created using
+   * salep.test, have level of 0.
+   * 
+   * @type {number}
+   */
   this.level = level;
+
+  /**
+   * @desc
+   * This property is cases array which hold all cases defined in test.
+   * 
+   * @type {Case[]}
+   */
   this.cases = [];
+
+  /**
+   * @desc
+   * This property holds all nested tests defined in current test. 
+   * All nested tests will have +1 level of current test.
+   * 
+   * @type {Test[]}
+   */
   this.tests = [];
 
+  /**
+   * @desc
+   * This function creates a new test inside current test scope with given name
+   * and test function.
+   * 
+   * @param {String}    name  Name of the test
+   * @param {Function}  func  Test function
+   * 
+   * @fires module:salep#testStart
+   * @fires module:salep#skip
+   * 
+   * @example
+   * salep.test('A test', function() {
+   *   this.test('An inner test', function() {
+   *     this.case('This case belongs to inner test', function() {
+   *       // Case 
+   *     });
+   *   });
+   * });
+   * 
+   */
   Object.defineProperty(this, 'test', {
     value: salep.test.bind(this),
     enumerable: false,
     configurable: false
   });
 
+  /**
+   * @method case
+   * 
+   * @desc
+   * This function creates a new case inside current test scope with given name
+   * and case function.
+   * 
+   * @param {String}    name  Name of the case
+   * @param {Function}  func  Case function
+   * 
+   * @fires module:salep#caseStart
+   * @fires module:salep#success
+   * @fires module:salep#fail
+   * @fires module:salep#skip
+   * 
+   * @example
+   * salep.test('A test', function() {
+   *   this.case('Should succeed', function() {
+   *     // Case code
+   *   });
+   * });
+   */
   Object.defineProperty(this, 'case', {
     value: salep.case.bind(this),
     enumerable: false,

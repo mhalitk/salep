@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Unreleased
+
+### Fixed
+
+- Fix skipped cases effect to total count (Issue #5)
+
 ## v0.2.0 / 04.01.2017
 
 ### Added
