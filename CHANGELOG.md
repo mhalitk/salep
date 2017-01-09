@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Added
+
+- afterEach callback that runs after each case in a Test
+- beforeEach callback that runs before each case in a Test
+
 ### Fixed
 
 - Fix skipped cases effect to total count (Issue #5)
