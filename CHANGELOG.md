@@ -10,6 +10,7 @@
 ### Fixed
 
 - Fix skipped cases effect to total count (Issue #5)
+- Fix case's parent is null issue
 
 ### Other
 
