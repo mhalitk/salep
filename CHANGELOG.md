@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.1 / 10.01.2017
 
 ### Added
 
