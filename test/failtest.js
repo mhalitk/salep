@@ -6,6 +6,8 @@ var shouldSkipCount = 0;
 var shouldSuccessCount = 0;
 var shouldTotalCount = 0;
 
+var testResult = true;
+
 salep.test("A test without any case", function() {
 
 });
@@ -44,10 +46,19 @@ shouldTotalCount++;
 
 var result = salep.stop();
 
+result.tests.forEach(function(test) {
+  test.cases.forEach(function(_case) {
+    if (_case.parent !== test) {
+      testResult = false;
+    }
+  });
+});
+
 if (result.skip     === shouldSkipCount     &&
     result.fail     === shouldFailCount     &&
     result.success  === shouldSuccessCount  &&
-    result.total    === shouldTotalCount) {
+    result.total    === shouldTotalCount    &&
+    testResult      === true) {
   exports.success = true;
 } else {
   exports.success = false;

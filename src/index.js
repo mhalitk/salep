@@ -512,7 +512,8 @@
     Object.defineProperty(this, 'case', {
       value: function(name, func) {
           var _case = new Case({
-            name: name
+            name: name,
+            parent: this
           });
           this.cases.push(_case);
 
