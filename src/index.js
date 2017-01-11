@@ -168,6 +168,26 @@
       if (salep.isRunning && !skipNextEnabled) {
         testStart(_test);
         func.call(_test);
+        _test.cases.forEach(function(_case) {
+          if (_case.skipped) {
+            skip(_case);
+            return;
+          } else {
+            caseStart(_case);
+            try {
+              _test.beforeEachCb && _test.beforeEachCb();
+              _case.caseFunction && _case.caseFunction();
+              _test.afterEachCb && _test.afterEachCb();
+
+              _case.success = true;
+              success(_case);
+            } catch (e) {
+              _case.success = false;
+              _case.reason = e;
+              fail(_case);
+            }
+          }
+        });
       } else {
         _test.skipped = true;
         skip(_test);
@@ -394,7 +414,7 @@
      */
     this.tests = [];
 
-    var _beforeEachCb = null;
+    this.beforeEachCb = null;
     /**
      * @method
      * 
@@ -426,11 +446,11 @@
      */
     this.beforeEach = function(beforeEachCb) {
       if (beforeEachCb instanceof Function) {
-        _beforeEachCb = beforeEachCb;
+        this.beforeEachCb = beforeEachCb;
       }
     }
 
-    var _afterEachCb = null;
+    this.afterEachCb = null;
     /**
      * @method
      * 
@@ -458,7 +478,7 @@
      */
     this.afterEach = function(afterEachCb) {
       if (afterEachCb instanceof Function) {
-        _afterEachCb = afterEachCb;
+        this.afterEachCb = afterEachCb;
       }
     }
 
@@ -512,28 +532,14 @@
     this.case = function(name, func) {
       var _case = new Case({
         name: name,
-        parent: this
+        parent: this,
+        caseFunction: func
       });
       this.cases.push(_case);
 
-      if (salep.isRunning && !skipNextEnabled) {
-        caseStart(_case);
-        try {
-          _beforeEachCb && _beforeEachCb();
-          func();
-          _afterEachCb && _afterEachCb();
-
-          _case.success = true;
-          success(_case);
-        } catch (e) {
-          _case.success = false;
-          _case.reason = e;
-          fail(_case);
-        }
-      } else {
+      if (!salep.isRunning || skipNextEnabled) {
         _case.skipped = true;
         _case.success = false;
-        skip(_case);
       }
     }
 
@@ -614,6 +620,8 @@
      * @type {Test}
      */
     this.parent = null;
+
+    this.caseFunction = null;
 
     if (params) for (var param in params) {
       if (this.hasOwnProperty(param)) {
