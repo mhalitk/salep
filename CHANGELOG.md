@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.2.2 / 12.01.2017
+
+### Fixed
+
+- Fix beforeEach and afterEach usages after case definitions.
+  There was restriction about their places, they should have
+  been before case definitions in order to use them.
+
 ## v0.2.1 / 10.01.2017
 
 ### Added

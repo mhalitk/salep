@@ -1,6 +1,6 @@
 {
   "name": "salep",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "platform independent Javascript testing framework",
   "main": "src/index.js",
   "scripts": {
@@ -15,7 +15,10 @@
     "test",
     "unittest",
     "tdd",
-    "salep"
+    "salep",
+    "testing",
+    "unit testing",
+    "test framework"
   ],
   "author": "M.Halit Karakis",
   "license": "MIT",
