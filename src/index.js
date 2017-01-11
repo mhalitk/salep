@@ -1,8 +1,6 @@
 (function(){
   /**
-   * @module salep
-   * @global
-   *
+   * @namespace
    * @desc
    * salep is a singleton object that manages all tests and cases.
    * This object exposed to global scope as 'salep'.
@@ -14,6 +12,7 @@
 
     /**
      * @method on
+     * @memberof salep
      * 
      * @desc
      * This function enables adding callbacks to events. For one specific
@@ -36,6 +35,7 @@
 
     /**
      * @method off
+     * @memberof salep
      *
      * @desc
      * This function allows removing callbacks from events. Every callback
@@ -65,6 +65,7 @@
 
     /**
      * @method run
+     * @memberof salep
      *
      * @desc
      * Enables salep testing. All the tests and cases before salep.run method
@@ -80,6 +81,7 @@
 
     /**
      * @method stop
+     * @memberof salep
      *
      * @desc
      * Disables salep testing and returns all the collected information starting
@@ -109,6 +111,7 @@
 
     /**
      * @method getResults
+     * @memberof salep
      * 
      * @desc
      * This method will return results of tests and cases from
@@ -130,6 +133,7 @@
 
     /**
      * @method test
+     * @memberof salep
      * 
      * @desc
      * This function creates a new test inside salep scope with given name
@@ -139,8 +143,8 @@
      * @param {String}    name  Name of the test
      * @param {Function}  func  Test function
      * 
-     * @fires module:salep#testStart
-     * @fires module:salep#skip
+     * @fires salep#testStart
+     * @fires salep#skip
      * 
      * @example
      * salep.test('NewTest', function() {
@@ -174,6 +178,7 @@
 
     /**
      * @method skipNext
+     * @memberof salep
      * 
      * @desc
      * This function helps skipping tests/cases. If you want to skip a case or
@@ -193,6 +198,7 @@
 
     /**
      * @method case
+     * @memberof salep
      * 
      * @desc
      * This function creates a new case inside salep scope with given name
@@ -203,10 +209,10 @@
      * @param {String}    name  Name of the case
      * @param {Function}  func  Case function
      * 
-     * @fires module:salep#caseStart
-     * @fires module:salep#success
-     * @fires module:salep#fail
-     * @fires module:salep#skip
+     * @fires salep#caseStart
+     * @fires salep#success
+     * @fires salep#fail
+     * @fires salep#skip
      * 
      * @example
      * salep.case('NewFailCaseInsalepScope', function() {
@@ -262,7 +268,7 @@
     /**
      * This event fires before starting a test function.
      *
-     * @event module:salep#testStart
+     * @event salep#testStart
      * @type {Test}
      */
     emit("testStart", test);
@@ -273,7 +279,7 @@
     /**
      * This event fires before starting a test case function.
      * 
-     * @event module:salep#caseStart
+     * @event salep#caseStart
      * @type {Case}
      */
     emit("caseStart", testCase);
@@ -284,7 +290,7 @@
     /**
      * This event fires when a test case fails.
      * 
-     * @event module:salep#fail
+     * @event salep#fail
      * @type {Case}
      */
     emit("fail", testCase);
@@ -295,7 +301,7 @@
     /**
      * This event fires when a test case succeeds.
      * 
-     * @event module:salep#success
+     * @event salep#success
      * @type {Case}
      */
     emit("success", testCase);
@@ -308,7 +314,7 @@
     /**
      * This event fires when a test or case has skipped.
      * 
-     * @event module:salep#skip
+     * @event salep#skip
      * @type {Test|Case}
      */
     emit("skip", testOrCase);
@@ -318,9 +324,8 @@
   var level = 0;
 
   /**
-   * @class Test
+   * @class
    * 
-   * @desc
    * This class represents a test which has a name and function.
    * Test function runs in a Test object scope created with given name.
    * So when you use 'this' inside test funcion it doesn't represents
@@ -347,10 +352,9 @@
    */
   function Test(params) {
     /**
-     * @desc
      * Name of the test.
      * 
-     * @type {string}
+     * @property {string} name
      */
     this.name = "";
 
@@ -392,7 +396,7 @@
 
     var _beforeEachCb = null;
     /**
-     * @method beforeEach
+     * @method
      * 
      * @desc
      * This function allows setting a callback that runs before each
@@ -428,7 +432,7 @@
 
     var _afterEachCb = null;
     /**
-     * @method afterEach
+     * @method
      * 
      * @desc
      * This function allows setting a callback that runs after each case.
@@ -459,7 +463,7 @@
     }
 
     /**
-     * @method test
+     * @method
      * 
      * @desc
      * This function creates a new test inside current test scope with given name
@@ -468,8 +472,8 @@
      * @param {String}    name  Name of the test
      * @param {Function}  func  Test function
      * 
-     * @fires module:salep#testStart
-     * @fires module:salep#skip
+     * @fires salep#testStart
+     * @fires salep#skip
      * 
      * @example
      * salep.test('A test', function() {
@@ -481,14 +485,10 @@
      * });
      * 
      */
-    Object.defineProperty(this, 'test', {
-      value: salep.test.bind(this),
-      enumerable: false,
-      configurable: false
-    });
+    this.test = salep.test.bind(this);
 
     /**
-     * @method case
+     * @method
      * 
      * @desc
      * This function creates a new case inside current test scope with given name
@@ -497,10 +497,10 @@
      * @param {String}    name  Name of the case
      * @param {Function}  func  Case function
      * 
-     * @fires module:salep#caseStart
-     * @fires module:salep#success
-     * @fires module:salep#fail
-     * @fires module:salep#skip
+     * @fires salep#caseStart
+     * @fires salep#success
+     * @fires salep#fail
+     * @fires salep#skip
      * 
      * @example
      * salep.test('A test', function() {
@@ -509,37 +509,33 @@
      *   });
      * });
      */
-    Object.defineProperty(this, 'case', {
-      value: function(name, func) {
-          var _case = new Case({
-            name: name,
-            parent: this
-          });
-          this.cases.push(_case);
+    this.case = function(name, func) {
+      var _case = new Case({
+        name: name,
+        parent: this
+      });
+      this.cases.push(_case);
 
-          if (salep.isRunning && !skipNextEnabled) {
-            caseStart(_case);
-            try {
-              _beforeEachCb && _beforeEachCb();
-              func();
-              _afterEachCb && _afterEachCb();
+      if (salep.isRunning && !skipNextEnabled) {
+        caseStart(_case);
+        try {
+          _beforeEachCb && _beforeEachCb();
+          func();
+          _afterEachCb && _afterEachCb();
 
-              _case.success = true;
-              success(_case);
-            } catch (e) {
-              _case.success = false;
-              _case.reason = e;
-              fail(_case);
-            }
-          } else {
-            _case.skipped = true;
-            _case.success = false;
-            skip(_case);
-          }
-        },
-      enumerable: false,
-      configurable: false
-    });
+          _case.success = true;
+          success(_case);
+        } catch (e) {
+          _case.success = false;
+          _case.reason = e;
+          fail(_case);
+        }
+      } else {
+        _case.skipped = true;
+        _case.success = false;
+        skip(_case);
+      }
+    }
 
     if (params) for (var param in params) {
       if (this.hasOwnProperty(param)) {
@@ -549,7 +545,7 @@
   }
 
   /**
-   * @class Case
+   * @class
    * 
    * @desc
    * This class represents case written inside tests and salep scope.
@@ -627,7 +623,7 @@
   }
 
   /**
-   * @class Result
+   * @class
    * 
    * @desc
    * This class represents results of salep tests. It helps you
