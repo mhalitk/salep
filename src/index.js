@@ -269,7 +269,12 @@
     }
   };
 
-  global.salep = salep;
+  if (typeof global !== 'undefined') {
+    global.salep = salep;
+  }
+  if (typeof window !== 'undefined') {
+    window.salep = salep;
+  }
 
   // Privates
   var skipNextEnabled = false;
