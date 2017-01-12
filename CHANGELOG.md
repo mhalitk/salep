@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.2.3 / 12.01.2017
+
+### Fixed
+
+- Fix browser support
+- Fix skipNext behavior. skipNext was causing all following
+  cases to be skipped when it's used
+
 ## v0.2.2 / 12.01.2017
 
 ### Fixed
