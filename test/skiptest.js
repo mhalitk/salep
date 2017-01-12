@@ -21,8 +21,6 @@ salep.test("should skip this test", function() {
     // empty
   });
 });
-shouldSkipCount++;
-shouldTotalCount++
 
 // Skipping salep cases
 salep.skipNext();
@@ -37,6 +35,27 @@ salep.case("this shouldn't skip", function() {
 });
 shouldSuccessCount++;
 shouldTotalCount++;
+
+salep.test("shouldn't skip this test", function() {
+  this.case("shouldn't skip this case", function() {
+
+  });
+  shouldSuccessCount++;
+  shouldTotalCount++;
+
+  salep.skipNext();
+  this.case("should skip this case", function() {
+    throw new Error("Error");
+  });
+  shouldSkipCount++;
+  shouldTotalCount++;
+
+  this.case("shouldn't skip this case", function() {
+    throw new Error("Error");
+  });
+  shouldFailCount++;
+  shouldTotalCount++;
+});
 
 var result = salep.getResults();
 

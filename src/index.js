@@ -190,6 +190,7 @@
         });
       } else {
         _test.skipped = true;
+        skipNextEnabled = false;
         skip(_test);
       }
 
@@ -262,6 +263,7 @@
       } else {
         _case.skipped = true;
         _case.success = false;
+        skipNextEnabled = false;
         skip(_case);
       }
     }
@@ -331,9 +333,10 @@
   }
 
   function skip(testOrCase) {
-    totalCount++;
-    skipCount++;
-    skipNextEnabled = false;
+    if (testOrCase instanceof Case) {
+      skipCount++;    
+      totalCount++;
+    }
     /**
      * This event fires when a test or case has skipped.
      * 
@@ -551,6 +554,7 @@
     if (!salep.isRunning || skipNextEnabled) {
       _case.skipped = true;
       _case.success = false;
+      skipNextEnabled = false;
     }
   }
 
