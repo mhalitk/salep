@@ -710,6 +710,8 @@
 
   // Reporter
   salep.reporter = new function Reporter() {
+    const PADDING_SIZE = 3;
+
     var _on = true;
     Object.defineProperty(this, 'on', {
       get: function() {
@@ -742,7 +744,7 @@
     }
 
     function reportTestStart(_test) {
-      var padding = " ".repeat(3*_test.level)
+      var padding = leftPad(_test.level)
       emit("report", "");
       emit("report", "");
       emit("report", padding + "Testing [" + _test.name + "] started");
@@ -750,7 +752,7 @@
 
     function reportCaseStart(_case) {
       if (_case.parent) {
-        var padding = "   " + " ".repeat(3*_case.parent.level);
+        var padding = leftPad(_case.parent.level + 1);
         emit("report", padding + "Case [" + _case.name + "] started");
       } else {
         emit("report", "");
@@ -760,7 +762,7 @@
 
     function reportSuccess(_case) {
       if (_case.parent) {
-        var padding = " ".repeat(_case.parent.level * 3 + 6);
+        var padding = leftPad(_case.parent.level + 2);
         emit("report", padding + "+ Succeded");
       } else {
         emit("report", "   + Succeeded");
@@ -769,7 +771,7 @@
 
     function reportFail(_case) {
       if (_case.parent) {
-        var padding = " ".repeat(_case.parent.level * 3 + 6);
+        var padding = leftPad(_case.parent.level + 2);
         emit("report", padding + "X Failed: " + _case.reason);
       } else {
         emit("report", "   X Failed: " + _case.reason);
@@ -779,17 +781,25 @@
     function reportSkip(testOrCase) {
       if (testOrCase instanceof Test) {    
         emit("report", "");
-        var padding = " ".repeat(testOrCase.level * 3);
+        var padding = leftPad(testOrCase.level);
         emit("report", padding + "Test [" + testOrCase.name + "]");
         emit("report", padding + "   O Skipped");
       } else {
         var padding = "   ";
         if (testOrCase.parent) {
-          padding += " ".repeat(testOrCase.parent.level * 3);
+          padding += leftPad(testOrCase.parent.level);
         } 
         emit("report", padding + "Case [" + testOrCase.name + "]");
         emit("report", padding + "   O Skipped");
       }
+    }
+
+    function leftPad(count) {
+      var result = "";
+      for (var i = 0; i < count * PADDING_SIZE; i++) {
+        result += " ";
+      }
+      return result;
     }
 
     notify();
