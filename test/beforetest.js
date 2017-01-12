@@ -2,6 +2,9 @@
 var testResult = true;
 
 require("../src/index.js");
+salep.on("report", function(text) {
+  console.log(text);
+});
 
 salep.test("A test", function() {
   var testValue = -1;

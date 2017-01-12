@@ -2,6 +2,10 @@
 var testResult = true;
 
 require("../src/index.js");
+salep.reporter.on = true;
+salep.on("report", function(text) {
+  console.log(text);
+});
 
 var caseStartEventCount = 0;
 var shouldCaseStartEventCount = 0;

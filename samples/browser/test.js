@@ -12,12 +12,16 @@ function fibonacci(n) {
 }
 
 // Set event handlers
-salep.on("fail", function(testCase) {
-  console.log("Case [" + testCase.name + "] finished with fail: " + testCase.reason);
-});
+// salep.on("fail", function(testCase) {
+//   console.log("Case [" + testCase.name + "] finished with fail: " + testCase.reason);
+// });
 
-salep.on("success", function(testCase) {
-  console.log("Case [" + testCase.name + "] finished with success");
+// salep.on("success", function(testCase) {
+//   console.log("Case [" + testCase.name + "] finished with success");
+// });
+
+salep.on("report", function(text) {
+  console.log(text);
 });
 
 // Write tests and cases

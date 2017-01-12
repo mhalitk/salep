@@ -707,4 +707,91 @@
       }
     }
   }
+
+  // Reporter
+  salep.reporter = new function Reporter() {
+    var _on = true;
+    Object.defineProperty(this, 'on', {
+      get: function() {
+        return _on;
+      },
+      set: function(value) {
+        if (value === _on) {
+          return;
+        } else {
+          _on = value;
+          notify();
+        }
+      }
+    });
+
+    function notify() {
+      if (_on) {
+        salep.on("testStart", reportTestStart);
+        salep.on("caseStart", reportCaseStart);
+        salep.on("success", reportSuccess);
+        salep.on("fail", reportFail);
+        salep.on("skip", reportSkip);
+      } else {
+        salep.on("testStart", reportTestStart);
+        salep.on("caseStart", reportCaseStart);
+        salep.on("success", reportSuccess);
+        salep.on("fail", reportFail);
+        salep.on("skip", reportSkip);
+      }
+    }
+
+    function reportTestStart(_test) {
+      var padding = " ".repeat(3*_test.level)
+      emit("report", "");
+      emit("report", "");
+      emit("report", padding + "Testing [" + _test.name + "] started");
+    }
+
+    function reportCaseStart(_case) {
+      if (_case.parent) {
+        var padding = "   " + " ".repeat(3*_case.parent.level);
+        emit("report", padding + "Case [" + _case.name + "] started");
+      } else {
+        emit("report", "");
+        emit("report", "Case [" + _case.name + "]");
+      }
+    }
+
+    function reportSuccess(_case) {
+      if (_case.parent) {
+        var padding = " ".repeat(_case.parent.level * 3 + 6);
+        emit("report", padding + "+ Succeded");
+      } else {
+        emit("report", "   + Succeeded");
+      }
+    }
+
+    function reportFail(_case) {
+      if (_case.parent) {
+        var padding = " ".repeat(_case.parent.level * 3 + 6);
+        emit("report", padding + "X Failed: " + _case.reason);
+      } else {
+        emit("report", "   X Failed: " + _case.reason);
+      }
+    }
+
+    function reportSkip(testOrCase) {
+      if (testOrCase instanceof Test) {    
+        emit("report", "");
+        var padding = " ".repeat(testOrCase.level * 3);
+        emit("report", padding + "Test [" + testOrCase.name + "]");
+        emit("report", padding + "   O Skipped");
+      } else {
+        var padding = "   ";
+        if (testOrCase.parent) {
+          padding += " ".repeat(testOrCase.parent.level * 3);
+        } 
+        emit("report", padding + "Case [" + testOrCase.name + "]");
+        emit("report", padding + "   O Skipped");
+      }
+    }
+
+    notify();
+  };
 })();

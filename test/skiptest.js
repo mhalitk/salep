@@ -1,5 +1,10 @@
 /** globals salep */
 require("../src/index.js");
+salep.reporter.on = true;
+salep.reporter.on = true;
+salep.on("report", function(text) {
+  console.log(text);
+});
 
 var shouldSkipCount = 0;
 var shouldFailCount = 0;
@@ -57,6 +62,9 @@ salep.test("shouldn't skip this test", function() {
   shouldTotalCount++;
 });
 
+if (salep.reporter.on) {
+  salep.reporter.on = false;
+}
 var result = salep.getResults();
 
 if (result.skip     === shouldSkipCount &&

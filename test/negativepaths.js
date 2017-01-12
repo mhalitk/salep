@@ -1,4 +1,7 @@
 require("../src/index.js");
+salep.on("report", function(text) {
+  console.log(text);
+});
 
 // Shouldn't crash with these cases
 salep.case();

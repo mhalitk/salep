@@ -1,5 +1,8 @@
 /** globals salep */
 require("../src/index.js");
+salep.on("report", function(text) {
+  console.log(text);
+});
 
 var shouldFailCount = 0;
 var shouldSkipCount = 0;
