@@ -274,6 +274,9 @@
      * @fires salep#fail
      * @fires salep#skip
      * 
+     * @deprecated
+     * since v0.2.2
+     * 
      * @example
      * salep.case('NewFailCaseInsalepScope', function() {
      *   throw "Exception goes here";
@@ -454,74 +457,6 @@
      */
     this.tests = [];
 
-    this.beforeEachCb = null;
-    /**
-     * @method
-     * 
-     * @desc
-     * This function allows setting a callback that runs before each
-     * case. With this functionality you can set up environment you
-     * will use in cases. If before each callback fails (throws 
-     * exception), it causes all cases to be counted as failed too.
-     * Before each callback should be set before all case definitions.
-     * 
-     * @example
-     * salep.test("A test", function() {
-     *   var instance = null;
-     *   this.beforeEach(function() {
-     *     instance = new ClassToTest();
-     *   });
-     *   
-     *   this.case("foo case", function() {
-     *     // This instance created before case runs
-     *     instance.foo();
-     *   });
-     * 
-     *   this.case("bar case", function() {
-     *     // This instance isn't the same instance with foo case's instance
-     *     instance.bar();
-     *   });
-     * });
-     * 
-     */
-    this.beforeEach = function(beforeEachCb) {
-      if (beforeEachCb instanceof Function) {
-        this.beforeEachCb = beforeEachCb;
-      }
-    }
-
-    this.afterEachCb = null;
-    /**
-     * @method
-     * 
-     * @desc
-     * This function allows setting a callback that runs after each case.
-     * If after each callback fails (throws exception), it causes all cases
-     * to be counted as failed too. After each callback should be set 
-     * before all case definitons.
-     * 
-     * @example
-     * salep.test("File test", function() {
-     *   var filePath = "path/to/file";
-     * 
-     *   // After each case remove file
-     *   this.afterEach(function() {
-     *     removeFile(filePath);
-     *   });
-     *   
-     *   this.case("write to file case", function() {
-     *     // Assume below function creates file in filePath
-     *     writeToFile(filePath, "Text");
-     *   });
-     * });
-     * 
-     */
-    this.afterEach = function(afterEachCb) {
-      if (afterEachCb instanceof Function) {
-        this.afterEachCb = afterEachCb;
-      }
-    }
-
     /**
      * @method
      * 
@@ -547,46 +482,115 @@
      */
     this.test = salep.test.bind(this);
 
-    /**
-     * @method
-     * 
-     * @desc
-     * This function creates a new case inside current test scope with given name
-     * and case function.
-     * 
-     * @param {String}    name  Name of the case
-     * @param {Function}  func  Case function
-     * 
-     * @fires salep#caseStart
-     * @fires salep#success
-     * @fires salep#fail
-     * @fires salep#skip
-     * 
-     * @example
-     * salep.test('A test', function() {
-     *   this.case('Should succeed', function() {
-     *     // Case code
-     *   });
-     * });
-     */
-    this.case = function(name, func) {
-      var _case = new Case({
-        name: name,
-        parent: this,
-        caseFunction: func
-      });
-      this.cases.push(_case);
-
-      if (!salep.isRunning || skipNextEnabled) {
-        _case.skipped = true;
-        _case.success = false;
-      }
-    }
+    this.beforeEachCb = null;
+    this.afterEachCb = null;
 
     if (params) for (var param in params) {
       if (this.hasOwnProperty(param)) {
         this[param] = params[param];
       }
+    }
+  }
+
+  /**
+   * @method
+   * 
+   * @desc
+   * This function allows setting a callback that runs before each
+   * case. With this functionality you can set up environment you
+   * will use in cases. If before each callback fails (throws 
+   * exception), it causes all cases to be counted as failed too.
+   * Before each callback should be set before all case definitions.
+   * 
+   * @example
+   * salep.test("A test", function() {
+   *   var instance = null;
+   *   this.beforeEach(function() {
+   *     instance = new ClassToTest();
+   *   });
+   *   
+   *   this.case("foo case", function() {
+   *     // This instance created before case runs
+   *     instance.foo();
+   *   });
+   * 
+   *   this.case("bar case", function() {
+   *     // This instance isn't the same instance with foo case's instance
+   *     instance.bar();
+   *   });
+   * });
+   * 
+   */
+  Test.prototype.beforeEach = function(beforeEachCb) {
+    if (beforeEachCb instanceof Function) {
+      this.beforeEachCb = beforeEachCb;
+    }
+  };
+
+  /**
+   * @method
+   * 
+   * @desc
+   * This function allows setting a callback that runs after each case.
+   * If after each callback fails (throws exception), it causes all cases
+   * to be counted as failed too. After each callback should be set 
+   * before all case definitons.
+   * 
+   * @example
+   * salep.test("File test", function() {
+   *   var filePath = "path/to/file";
+   * 
+   *   // After each case remove file
+   *   this.afterEach(function() {
+   *     removeFile(filePath);
+   *   });
+   *   
+   *   this.case("write to file case", function() {
+   *     // Assume below function creates file in filePath
+   *     writeToFile(filePath, "Text");
+   *   });
+   * });
+   * 
+   */
+  Test.prototype.afterEach = function(afterEachCb) {
+    if (afterEachCb instanceof Function) {
+      this.afterEachCb = afterEachCb;
+    }
+  }
+
+  /**
+   * @method
+   * 
+   * @desc
+   * This function creates a new case inside current test scope with given name
+   * and case function.
+   * 
+   * @param {String}    name  Name of the case
+   * @param {Function}  func  Case function
+   * 
+   * @fires salep#caseStart
+   * @fires salep#success
+   * @fires salep#fail
+   * @fires salep#skip
+   * 
+   * @example
+   * salep.test('A test', function() {
+   *   this.case('Should succeed', function() {
+   *     // Case code
+   *   });
+   * });
+   */
+  Test.prototype.case = function(name, func) {
+    var _case = new Case({
+      name: name,
+      parent: this,
+      caseFunction: func
+    });
+    this.cases.push(_case);
+
+    if (!salep.isRunning || skipNextEnabled) {
+      _case.skipped = true;
+      _case.success = false;
     }
   }
 
@@ -746,7 +750,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Jan 12 2017 00:48:19 GMT+0300 (+03) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Jan 12 2017 07:16:42 GMT+0300 (+03) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
