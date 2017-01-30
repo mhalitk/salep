@@ -1,7 +1,7 @@
 /** globals salep */
 require("../src/index.js");
-salep.reporter.on = true;
-salep.reporter.on = true;
+salep.reporter.running = true;
+salep.reporter.running = true;
 salep.on("report", function(text) {
   console.log(text);
 });
@@ -62,8 +62,8 @@ salep.test("shouldn't skip this test", function() {
   shouldTotalCount++;
 });
 
-if (salep.reporter.on) {
-  salep.reporter.on = false;
+if (salep.reporter.running) {
+  salep.reporter.running = false;
 }
 var result = salep.getResults();
 

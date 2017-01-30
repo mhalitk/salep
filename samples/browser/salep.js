@@ -708,49 +708,84 @@
     }
   }
 
-  // Reporter
+  /**
+   * @property reporter
+   * @memberof salep
+   * 
+   * @desc
+   * reporter object enables you track status of tests. It basically
+   * fires an event with formatted report message for each lifecycle events 
+   * (testStart, caseStart, success etc.). You can use report message
+   * by logging to console or file wherever appropiate. Since console.log
+   * may not be available in global scope reporter doesn't log reports.
+   * 
+   * @example
+   * salep.on("report", function(message) {
+   *   console.log(message);
+   * });
+   * salep.reporter.running = true;
+   */
   salep.reporter = new function Reporter() {
-    var _on = true;
-    Object.defineProperty(this, 'on', {
+    /**
+     * This event fires if reporter running status set to true
+     * and a lifecycle event occured. It sends formatted report
+     * message as argument.
+     * 
+     * @event salep#report
+     * @type {string}
+     */
+
+    const PADDING_SIZE = 3;    
+
+    var _running = true;
+    /**
+     * @desc
+     * Sets/gets running status of reporter. It is set to true by default.
+     * For better performance, if you don't need reports, it is advised to 
+     * set running status to false.
+     * 
+     * @type {boolean}
+     */
+    Object.defineProperty(this, 'running', {
       get: function() {
-        return _on;
+        return _running;
       },
       set: function(value) {
-        if (value === _on) {
+        if (value === _running) {
           return;
         } else {
-          _on = value;
+          _running = value;
           notify();
         }
       }
     });
 
     function notify() {
-      if (_on) {
+      if (_running) {
         salep.on("testStart", reportTestStart);
         salep.on("caseStart", reportCaseStart);
         salep.on("success", reportSuccess);
         salep.on("fail", reportFail);
         salep.on("skip", reportSkip);
       } else {
-        salep.on("testStart", reportTestStart);
-        salep.on("caseStart", reportCaseStart);
-        salep.on("success", reportSuccess);
-        salep.on("fail", reportFail);
-        salep.on("skip", reportSkip);
+        salep.off("testStart", reportTestStart);
+        salep.off("caseStart", reportCaseStart);
+        salep.off("success", reportSuccess);
+        salep.off("fail", reportFail);
+        salep.off("skip", reportSkip);
       }
     }
 
     function reportTestStart(_test) {
-      var padding = " ".repeat(3*_test.level)
+      var padding = leftPad(_test.level)
       emit("report", "");
       emit("report", "");
-      emit("report", padding + "Testing [" + _test.name + "] started");
+      emit("report", padding + "Test [" + _test.name + "] started");
     }
 
     function reportCaseStart(_case) {
       if (_case.parent) {
-        var padding = "   " + " ".repeat(3*_case.parent.level);
+        var padding = leftPad(_case.parent.level + 1);
         emit("report", padding + "Case [" + _case.name + "] started");
       } else {
         emit("report", "");
@@ -760,7 +795,7 @@
 
     function reportSuccess(_case) {
       if (_case.parent) {
-        var padding = " ".repeat(_case.parent.level * 3 + 6);
+        var padding = leftPad(_case.parent.level + 2);
         emit("report", padding + "+ Succeded");
       } else {
         emit("report", "   + Succeeded");
@@ -769,7 +804,7 @@
 
     function reportFail(_case) {
       if (_case.parent) {
-        var padding = " ".repeat(_case.parent.level * 3 + 6);
+        var padding = leftPad(_case.parent.level + 2);
         emit("report", padding + "X Failed: " + _case.reason);
       } else {
         emit("report", "   X Failed: " + _case.reason);
@@ -779,17 +814,25 @@
     function reportSkip(testOrCase) {
       if (testOrCase instanceof Test) {    
         emit("report", "");
-        var padding = " ".repeat(testOrCase.level * 3);
+        var padding = leftPad(testOrCase.level);
         emit("report", padding + "Test [" + testOrCase.name + "]");
         emit("report", padding + "   O Skipped");
       } else {
         var padding = "   ";
         if (testOrCase.parent) {
-          padding += " ".repeat(testOrCase.parent.level * 3);
+          padding += leftPad(testOrCase.parent.level);
         } 
         emit("report", padding + "Case [" + testOrCase.name + "]");
         emit("report", padding + "   O Skipped");
       }
+    }
+
+    function leftPad(count) {
+      var result = "";
+      for (var i = 0; i < count * PADDING_SIZE; i++) {
+        result += " ";
+      }
+      return result;
     }
 
     notify();

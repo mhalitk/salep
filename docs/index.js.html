@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Case.html">Case</a></li><li><a href="Result.html">Result</a></li><li><a href="Test.html">Test</a><ul class='methods'><li data-type='method'><a href="Test.html#afterEach">afterEach</a></li><li data-type='method'><a href="Test.html#beforeEach">beforeEach</a></li><li data-type='method'><a href="Test.html#case">case</a></li><li data-type='method'><a href="Test.html#test">test</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="salep.html#event:caseStart">caseStart</a></li><li><a href="salep.html#event:fail">fail</a></li><li><a href="salep.html#event:skip">skip</a></li><li><a href="salep.html#event:success">success</a></li><li><a href="salep.html#event:testStart">testStart</a></li></ul><h3>Namespaces</h3><ul><li><a href="salep.html">salep</a><ul class='methods'><li data-type='method'><a href="salep.html#.case">case</a></li><li data-type='method'><a href="salep.html#.getResults">getResults</a></li><li data-type='method'><a href="salep.html#.off">off</a></li><li data-type='method'><a href="salep.html#.on">on</a></li><li data-type='method'><a href="salep.html#.run">run</a></li><li data-type='method'><a href="salep.html#.skipNext">skipNext</a></li><li data-type='method'><a href="salep.html#.stop">stop</a></li><li data-type='method'><a href="salep.html#.test">test</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Case.html">Case</a></li><li><a href="Result.html">Result</a></li><li><a href="Test.html">Test</a><ul class='methods'><li data-type='method'><a href="Test.html#afterEach">afterEach</a></li><li data-type='method'><a href="Test.html#beforeEach">beforeEach</a></li><li data-type='method'><a href="Test.html#case">case</a></li><li data-type='method'><a href="Test.html#test">test</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="salep.html#event:caseStart">caseStart</a></li><li><a href="salep.html#event:fail">fail</a></li><li><a href="salep.html#event:report">report</a></li><li><a href="salep.html#event:skip">skip</a></li><li><a href="salep.html#event:success">success</a></li><li><a href="salep.html#event:testStart">testStart</a></li></ul><h3>Namespaces</h3><ul><li><a href="salep.html">salep</a><ul class='methods'><li data-type='method'><a href="salep.html#.case">case</a></li><li data-type='method'><a href="salep.html#.getResults">getResults</a></li><li data-type='method'><a href="salep.html#.off">off</a></li><li data-type='method'><a href="salep.html#.on">on</a></li><li data-type='method'><a href="salep.html#.run">run</a></li><li data-type='method'><a href="salep.html#.skipNext">skipNext</a></li><li data-type='method'><a href="salep.html#.stop">stop</a></li><li data-type='method'><a href="salep.html#.test">test</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -230,6 +230,7 @@
         });
       } else {
         _test.skipped = true;
+        skipNextEnabled = false;
         skip(_test);
       }
 
@@ -302,12 +303,18 @@
       } else {
         _case.skipped = true;
         _case.success = false;
+        skipNextEnabled = false;
         skip(_case);
       }
     }
   };
 
-  global.salep = salep;
+  if (typeof global !== 'undefined') {
+    global.salep = salep;
+  }
+  if (typeof window !== 'undefined') {
+    window.salep = salep;
+  }
 
   // Privates
   var skipNextEnabled = false;
@@ -371,9 +378,10 @@
   }
 
   function skip(testOrCase) {
-    totalCount++;
-    skipCount++;
-    skipNextEnabled = false;
+    if (testOrCase instanceof Case) {
+      skipCount++;    
+      totalCount++;
+    }
     /**
      * This event fires when a test or case has skipped.
      * 
@@ -591,6 +599,7 @@
     if (!salep.isRunning || skipNextEnabled) {
       _case.skipped = true;
       _case.success = false;
+      skipNextEnabled = false;
     }
   }
 
@@ -738,6 +747,136 @@
       }
     }
   }
+
+  /**
+   * @property reporter
+   * @memberof salep
+   * 
+   * @desc
+   * Reporter object enables you track status of tests. It basically
+   * fires an event with formatted report message for each lifecycle events 
+   * (testStart, caseStart, success etc.). You can use report message
+   * by logging to console or file wherever appropiate. Since console.log
+   * may not be available in global scope reporter doesn't log reports.
+   * 
+   * @example
+   * salep.on("report", function(message) {
+   *   console.log(message);
+   * });
+   * salep.reporter.running = true;
+   */
+  salep.reporter = new function Reporter() {
+    /**
+     * This event fires if reporter running status set to true
+     * and a lifecycle event occured. It sends formatted report
+     * message as argument.
+     * 
+     * @event salep#report
+     * @type {string}
+     */
+
+    const PADDING_SIZE = 3;    
+
+    var _running = true;
+    /**
+     * @desc
+     * Sets/gets running status of reporter. It is set to true by default.
+     * For better performance, if you don't need reports, it is advised to 
+     * set running status to false.
+     * 
+     * @type {boolean}
+     */
+    Object.defineProperty(this, 'running', {
+      get: function() {
+        return _running;
+      },
+      set: function(value) {
+        if (value === _running) {
+          return;
+        } else {
+          _running = value;
+          notify();
+        }
+      }
+    });
+
+    function notify() {
+      if (_running) {
+        salep.on("testStart", reportTestStart);
+        salep.on("caseStart", reportCaseStart);
+        salep.on("success", reportSuccess);
+        salep.on("fail", reportFail);
+        salep.on("skip", reportSkip);
+      } else {
+        salep.off("testStart", reportTestStart);
+        salep.off("caseStart", reportCaseStart);
+        salep.off("success", reportSuccess);
+        salep.off("fail", reportFail);
+        salep.off("skip", reportSkip);
+      }
+    }
+
+    function reportTestStart(_test) {
+      var padding = leftPad(_test.level)
+      emit("report", "");
+      emit("report", "");
+      emit("report", padding + "Test [" + _test.name + "] started");
+    }
+
+    function reportCaseStart(_case) {
+      if (_case.parent) {
+        var padding = leftPad(_case.parent.level + 1);
+        emit("report", padding + "Case [" + _case.name + "] started");
+      } else {
+        emit("report", "");
+        emit("report", "Case [" + _case.name + "]");
+      }
+    }
+
+    function reportSuccess(_case) {
+      if (_case.parent) {
+        var padding = leftPad(_case.parent.level + 2);
+        emit("report", padding + "+ Succeded");
+      } else {
+        emit("report", "   + Succeeded");
+      }
+    }
+
+    function reportFail(_case) {
+      if (_case.parent) {
+        var padding = leftPad(_case.parent.level + 2);
+        emit("report", padding + "X Failed: " + _case.reason);
+      } else {
+        emit("report", "   X Failed: " + _case.reason);
+      }
+    }
+
+    function reportSkip(testOrCase) {
+      if (testOrCase instanceof Test) {    
+        emit("report", "");
+        var padding = leftPad(testOrCase.level);
+        emit("report", padding + "Test [" + testOrCase.name + "]");
+        emit("report", padding + "   O Skipped");
+      } else {
+        var padding = "   ";
+        if (testOrCase.parent) {
+          padding += leftPad(testOrCase.parent.level);
+        } 
+        emit("report", padding + "Case [" + testOrCase.name + "]");
+        emit("report", padding + "   O Skipped");
+      }
+    }
+
+    function leftPad(count) {
+      var result = "";
+      for (var i = 0; i &lt; count * PADDING_SIZE; i++) {
+        result += " ";
+      }
+      return result;
+    }
+
+    notify();
+  };
 // })();</code></pre>
         </article>
     </section>
@@ -750,7 +889,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Jan 12 2017 07:16:42 GMT+0300 (+03) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Jan 30 2017 23:16:17 GMT+0300 (+03) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

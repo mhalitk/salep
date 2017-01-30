@@ -2,7 +2,7 @@
 var testResult = true;
 
 require("../src/index.js");
-salep.reporter.on = true;
+salep.reporter.running = true;
 salep.on("report", function(text) {
   console.log(text);
 });

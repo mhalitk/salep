@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Case.html">Case</a></li><li><a href="Result.html">Result</a></li><li><a href="Test.html">Test</a><ul class='methods'><li data-type='method'><a href="Test.html#afterEach">afterEach</a></li><li data-type='method'><a href="Test.html#beforeEach">beforeEach</a></li><li data-type='method'><a href="Test.html#case">case</a></li><li data-type='method'><a href="Test.html#test">test</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="salep.html#event:caseStart">caseStart</a></li><li><a href="salep.html#event:fail">fail</a></li><li><a href="salep.html#event:skip">skip</a></li><li><a href="salep.html#event:success">success</a></li><li><a href="salep.html#event:testStart">testStart</a></li></ul><h3>Namespaces</h3><ul><li><a href="salep.html">salep</a><ul class='methods'><li data-type='method'><a href="salep.html#.case">case</a></li><li data-type='method'><a href="salep.html#.getResults">getResults</a></li><li data-type='method'><a href="salep.html#.off">off</a></li><li data-type='method'><a href="salep.html#.on">on</a></li><li data-type='method'><a href="salep.html#.run">run</a></li><li data-type='method'><a href="salep.html#.skipNext">skipNext</a></li><li data-type='method'><a href="salep.html#.stop">stop</a></li><li data-type='method'><a href="salep.html#.test">test</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Case.html">Case</a></li><li><a href="Result.html">Result</a></li><li><a href="Test.html">Test</a><ul class='methods'><li data-type='method'><a href="Test.html#afterEach">afterEach</a></li><li data-type='method'><a href="Test.html#beforeEach">beforeEach</a></li><li data-type='method'><a href="Test.html#case">case</a></li><li data-type='method'><a href="Test.html#test">test</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="salep.html#event:caseStart">caseStart</a></li><li><a href="salep.html#event:fail">fail</a></li><li><a href="salep.html#event:report">report</a></li><li><a href="salep.html#event:skip">skip</a></li><li><a href="salep.html#event:success">success</a></li><li><a href="salep.html#event:testStart">testStart</a></li></ul><h3>Namespaces</h3><ul><li><a href="salep.html">salep</a><ul class='methods'><li data-type='method'><a href="salep.html#.case">case</a></li><li data-type='method'><a href="salep.html#.getResults">getResults</a></li><li data-type='method'><a href="salep.html#.off">off</a></li><li data-type='method'><a href="salep.html#.on">on</a></li><li data-type='method'><a href="salep.html#.run">run</a></li><li data-type='method'><a href="salep.html#.skipNext">skipNext</a></li><li data-type='method'><a href="salep.html#.stop">stop</a></li><li data-type='method'><a href="salep.html#.test">test</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -113,6 +113,131 @@ This object exposed to global scope as 'salep'.</p></div>
 
     
 
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".reporter"><span class="type-signature">(static) </span>reporter<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Reporter object enables you track status of tests. It basically
+fires an event with formatted report message for each lifecycle events 
+(testStart, caseStart, success etc.). You can use report message
+by logging to console or file wherever appropiate. Since console.log
+may not be available in global scope reporter doesn't log reports.</p>
+</div>
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>reporter</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line728">line 728</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>salep.on("report", function(message) {
+  console.log(message);
+});
+salep.reporter.running = true;</code></pre>
+
+
+
+        
     
 
     
@@ -251,7 +376,7 @@ as failed otherwise case marked as succeded.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line219">line 219</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line220">line 220</a>
     </li></ul></dd>
     
 
@@ -871,7 +996,7 @@ test, run this function right before test or case definition.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line199">line 199</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line200">line 200</a>
     </li></ul></dd>
     
 
@@ -1263,7 +1388,7 @@ cases. All the cases written inside test function is belong to named test.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line302">line 302</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line309">line 309</a>
     </li></ul></dd>
     
 
@@ -1355,7 +1480,101 @@ cases. All the cases written inside test function is belong to named test.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line313">line 313</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line320">line 320</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="event:report">report</h4>
+
+    
+
+
+
+<div class="description">
+    <p>This event fires if reporter running status set to true
+and a lifecycle event occured. It sends formatted report
+message as argument.</p>
+</div>
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line729">line 729</a>
     </li></ul></dd>
     
 
@@ -1450,7 +1669,7 @@ cases. All the cases written inside test function is belong to named test.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line337">line 337</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line345">line 345</a>
     </li></ul></dd>
     
 
@@ -1542,7 +1761,7 @@ cases. All the cases written inside test function is belong to named test.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line324">line 324</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line331">line 331</a>
     </li></ul></dd>
     
 
@@ -1634,7 +1853,7 @@ cases. All the cases written inside test function is belong to named test.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line291">line 291</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line298">line 298</a>
     </li></ul></dd>
     
 
@@ -1674,7 +1893,7 @@ cases. All the cases written inside test function is belong to named test.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Jan 12 2017 07:16:42 GMT+0300 (+03) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Jan 30 2017 23:16:17 GMT+0300 (+03) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

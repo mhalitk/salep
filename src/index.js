@@ -708,38 +708,71 @@
     }
   }
 
-  // Reporter
+  /**
+   * @property reporter
+   * @memberof salep
+   * 
+   * @desc
+   * reporter object enables you track status of tests. It basically
+   * fires an event with formatted report message for each lifecycle events 
+   * (testStart, caseStart, success etc.). You can use report message
+   * by logging to console or file wherever appropiate. Since console.log
+   * may not be available in global scope reporter doesn't log reports.
+   * 
+   * @example
+   * salep.on("report", function(message) {
+   *   console.log(message);
+   * });
+   * salep.reporter.running = true;
+   */
   salep.reporter = new function Reporter() {
-    const PADDING_SIZE = 3;
+    /**
+     * This event fires if reporter running status set to true
+     * and a lifecycle event occured. It sends formatted report
+     * message as argument.
+     * 
+     * @event salep#report
+     * @type {string}
+     */
 
-    var _on = true;
-    Object.defineProperty(this, 'on', {
+    const PADDING_SIZE = 3;    
+
+    var _running = true;
+    /**
+     * @desc
+     * Sets/gets running status of reporter. It is set to true by default.
+     * For better performance, if you don't need reports, it is advised to 
+     * set running status to false.
+     * 
+     * @type {boolean}
+     */
+    Object.defineProperty(this, 'running', {
       get: function() {
-        return _on;
+        return _running;
       },
       set: function(value) {
-        if (value === _on) {
+        if (value === _running) {
           return;
         } else {
-          _on = value;
+          _running = value;
           notify();
         }
       }
     });
 
     function notify() {
-      if (_on) {
+      if (_running) {
         salep.on("testStart", reportTestStart);
         salep.on("caseStart", reportCaseStart);
         salep.on("success", reportSuccess);
         salep.on("fail", reportFail);
         salep.on("skip", reportSkip);
       } else {
-        salep.on("testStart", reportTestStart);
-        salep.on("caseStart", reportCaseStart);
-        salep.on("success", reportSuccess);
-        salep.on("fail", reportFail);
-        salep.on("skip", reportSkip);
+        salep.off("testStart", reportTestStart);
+        salep.off("caseStart", reportCaseStart);
+        salep.off("success", reportSuccess);
+        salep.off("fail", reportFail);
+        salep.off("skip", reportSkip);
       }
     }
 
@@ -747,7 +780,7 @@
       var padding = leftPad(_test.level)
       emit("report", "");
       emit("report", "");
-      emit("report", padding + "Testing [" + _test.name + "] started");
+      emit("report", padding + "Test [" + _test.name + "] started");
     }
 
     function reportCaseStart(_case) {
