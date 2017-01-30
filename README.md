@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mhalitk/salep.svg?branch=master)](https://travis-ci.org/mhalitk/salep) [![codecov](https://codecov.io/gh/mhalitk/salep/branch/master/graph/badge.svg)](https://codecov.io/gh/mhalitk/salep) [![dependencies](https://img.shields.io/badge/dependencies-none-brightgreen.svg)](https://github.com/mhalitk/salep) [![GitHub version](https://badge.fury.io/gh/mhalitk%2Fsalep.svg)](https://github.com/mhalitk/salep/releases) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mhalitk/salep/blob/master/LICENSE)
 
-`salep` is platform independent Javascript testing framework. You can use `salep` in [Node.js](https://nodejs.org) or in the Browser or even in Mobile Applications written using [Smartface](https://smartface.io), [NativeScript](https://www.nativescript.org) or any other JS based mobile application frameworks.
+`salep` is platform independent Javascript testing framework. It is simple, easy to use and not dependant to any other toolor library. `salep` works with [Node.js](https://nodejs.org), Browsers and even with Mobile Applications written using [Smartface](https://smartface.io), [NativeScript](https://www.nativescript.org) or any other JS based mobile application frameworks.
 
 # Install
 

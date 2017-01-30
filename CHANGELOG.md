@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.0.0 / 30.01.2017
+
+### Added
+
+- reporter object is added which enables logging test
+  status with formatted text.
+
 ## v0.2.3 / 12.01.2017
 
 ### Fixed
