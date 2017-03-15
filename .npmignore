@@ -1,4 +1,5 @@
 .eslintrc.json
+.gitlab-ci.yml
 .npmignore
 .travis.yml
 .vscode
